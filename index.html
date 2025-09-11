@@ -555,6 +555,9 @@
             .main-container {
                 padding: 15px;
             }
+            /* Disable mouse-driven background and effects on mobile */
+            .bg-image { transform: none !important; transition: none !important; }
+            #bgMouseCanvas { display: none !important; }
             
             .glass-container {
                 padding: 27px 36px; /* 10% smaller: 30px 40px → 27px 36px */
@@ -877,12 +880,7 @@
             mouseTarget.x = e.clientX;
             mouseTarget.y = e.clientY;
         }
-        window.addEventListener('mousemove', onMouseMove, { passive: true });
-        window.addEventListener('resize', () => {
-            viewportW = window.innerWidth;
-            viewportH = window.innerHeight;
-            sizeMouseCanvas();
-        });
+        // Listeners will be attached conditionally (desktop only) inside DOMContentLoaded
 
         // (Removed snow effect)
 
@@ -1027,10 +1025,26 @@
                     liquidGlass.classList.toggle('is-expanded');
                 });
             }
-            // Init mouse canvas network
-            sizeMouseCanvas();
-            initMousePoints();
-            animateMouseCanvas();
+            // Detect desktop (fine pointer) to enable mouse effects
+            const isDesktop = window.matchMedia('(pointer: fine)').matches && window.innerWidth >= 768;
+
+            if (isDesktop) {
+                window.addEventListener('mousemove', onMouseMove, { passive: true });
+                window.addEventListener('resize', () => {
+                    viewportW = window.innerWidth;
+                    viewportH = window.innerHeight;
+                    sizeMouseCanvas();
+                });
+
+                // Init mouse canvas network
+                sizeMouseCanvas();
+                initMousePoints();
+                animateMouseCanvas();
+            } else {
+                // Ensure effects are disabled on mobile
+                if (mouseCanvas) mouseCanvas.style.display = 'none';
+                if (bgImage) bgImage.style.transform = 'none';
+            }
         });
 
         function sizeMouseCanvas() {
@@ -1118,5 +1132,4 @@
 </body>
 
 </html>
-
 
