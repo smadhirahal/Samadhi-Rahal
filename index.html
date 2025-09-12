@@ -248,7 +248,7 @@
             width: 104px;
             height: 104px;
             border-radius: 50%;
-            margin: 0 auto 25px;
+            margin: 20px auto 25px;
             background: linear-gradient(145deg, 
                 rgba(255, 255, 255, 0.25), 
                 rgba(255, 255, 255, 0.08));
@@ -314,22 +314,31 @@
 
         .name {
             font-family: 'Inter', sans-serif;
-            font-size: 2em;
-            font-weight: 700;
+            font-size: 2.2em;
+            font-weight: 800;
             margin-bottom: 8px;
-            background: linear-gradient(45deg, #ffffff, #f0f0f0, #ffffff, #e8e8e8);
-            background-size: 300% 300%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
+            background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: nameShine 4s ease-in-out infinite;
+            animation: nameRainbow 6s ease-in-out infinite;
             letter-spacing: -0.02em;
+            position: relative;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            text-align: center;
+            display: block;
         }
 
-        @keyframes nameShine {
+
+        @keyframes nameRainbow {
             0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 50% 100%; }
+            75% { background-position: 50% 0%; }
         }
+
+
 
         .title {
             font-family: 'Poppins', sans-serif;
@@ -339,7 +348,13 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             font-weight: 500;
+            text-align: center;
+            display: block;
         }
+
+
+
+
 
         .location {
             font-family: 'Inter', sans-serif;
@@ -347,7 +362,13 @@
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 20px;
             font-weight: 400;
+            text-align: center;
+            display: block;
         }
+
+
+
+
 
         .status {
             font-family: 'Inter', sans-serif;
@@ -356,7 +377,13 @@
             margin-bottom: 30px;
             font-weight: 400;
             font-style: italic;
+            text-align: center;
+            display: block;
         }
+
+
+
+
 
         /* Social Buttons - Line Layout */
         .social-grid {
@@ -785,13 +812,13 @@
             <div class="lg-edge"></div>
             <div class="glass-content">
             <div class="profile-image" id="profileImage">
-                <div class="loading">SR</div>
+                <img src="mama.jpg" alt="Profile Photo" class="profile-avatar">
                 <div class="discord-status offline" id="discordStatusBadge">
                     <i class="fas fa-circle"></i>
                 </div>
             </div>
             <h1 class="name" id="displayName">Samadhi Rahal</h1>
-            <p class="title">Artist & Editor</p>
+            <p class="title">Artist/Editor</p>
             <div class="location">Sri Lanka</div>
             <div class="status" id="discordStatus">Loading Discord status...</div>
             
@@ -1150,4 +1177,3 @@
 </body>
 
 </html>
-
