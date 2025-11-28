@@ -134,7 +134,6 @@
             }
         }
 
-
         /* Main Container - Centered and fits screen */
         .main-container {
             display: flex;
@@ -147,7 +146,6 @@
         .main-container:first-child {
             min-height: 100vh;
         }
-
 
         /* Wide Glass morphism container */
         .glass-container {
@@ -460,9 +458,9 @@
             place-content: center;
         }
 
+        /* --- UPDATED ICON STYLES (Fixed Crop & Permanent Glass) --- */
         .liquid-glass__link {
             border-radius: var(--icon-border-radius);
-            box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.45), inset -1px -1px 1px 0 rgba(255, 255, 255, 0.45);
             display: flex;
             height: var(--icon-size);
             padding: var(--icon-padding);
@@ -471,15 +469,26 @@
             z-index: 3;
             text-decoration: none;
             
-            /* ADDED: Bouncy transition */
+            /* Bouncy transition */
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
-            border: 1px solid transparent; 
+            
+            /* PERMANENT GLASS EFFECT */
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 4px 6px rgba(0, 0, 0, 0.1),
+                inset 1px 1px 2px rgba(255, 255, 255, 0.6),
+                inset -1px -1px 2px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+
+            /* FIX: Allow icon to zoom out without being cropped */
+            overflow: visible; 
         }
 
         .liquid-glass__icon {
             width: 100%;
             height: 100%;
-            /* ADDED: Bouncy transition for the icon too */
+            /* Bouncy transition for the icon */
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
         }
 
@@ -489,47 +498,34 @@
             --icon-padding: 0.9rem;
             cursor: default;
             pointer-events: auto;
-            box-shadow: inset 1px 2px 2px 0 rgba(255, 255, 255, 0.45), inset -1px -2px 2px 0 rgba(255, 255, 255, 0.45);
         }
 
-        /* 3. HOVER STATE - The "Pop" Effect */
+        /* --- HOVER POP EFFECT --- */
         .liquid-glass.is-expanded .liquid-glass__link:hover {
-            /* Move up and scale slightly */
-            transform: translateY(-10px) scale(1.1); 
+            /* Lift up */
+            transform: translateY(-10px); 
             
-            /* Make the glass background brighter */
-            background: rgba(255, 255, 255, 0.15); 
-            
-            /* Add a strong shadow underneath (3D feeling) */
+            /* Brighter glass and stronger shadow on hover */
+            background: rgba(255, 255, 255, 0.2); 
             box-shadow: 
-                0 15px 25px rgba(0, 0, 0, 0.3), 
+                0 15px 25px rgba(0, 0, 0, 0.3),
                 inset 1px 1px 2px rgba(255, 255, 255, 0.9),
                 inset -1px -1px 2px rgba(255, 255, 255, 0.2);
-                
-            /* Add a subtle white border */
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             
-            /* Ensure it is on top of everything */
             z-index: 10;
         }
 
-        /* 4. ICON HOVER - Scale and Glow */
+        /* --- ICON ZOOM ON HOVER --- */
         .liquid-glass.is-expanded .liquid-glass__link:hover .liquid-glass__icon {
-            /* Icon gets even bigger inside the button */
-            transform: scale(1.15); 
+            /* Zoom the icon */
+            transform: scale(1.2); 
             
-            /* Add a white glow to the icon */
+            /* Glow effect */
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
         }
 
-        .link-linkedin { background: linear-gradient(90deg, #1a76ad 0%, #288ec9 100%); }
-        .link-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-        .link-youtube { background: linear-gradient(135deg, #ff0000 0%, #cc0000 50%, #ff453a 100%); }
-        .link-tiktok { background: linear-gradient(45deg, #ff0050 0%, #00f2ea 50%, #000 100%); }
-        .link-facebook { background: linear-gradient(90deg, #1877f2 0%, #42a5f5 100%); }
-        .link-discord { background: linear-gradient(90deg, #5865f2 0%, #7289da 100%); }
-        .link-reddit { background: linear-gradient(90deg, #ff4500 0%, #ff8c00 100%); }
-        .link-threads { background: linear-gradient(90deg, #000 0%, #282828 100%); }
+        .link-linkedin { /* Default styles overridden by liquid glass glass effect above, but gradients kept for reference or icon fills if needed */ }
         
         /* --- ADDITIONAL SECTIONS STYLES --- */
         .glass-container.glass-container--wide {
@@ -635,7 +631,7 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        /* --- SHOWREEL STYLES (NEW) --- */
+        /* --- SHOWREEL STYLES --- */
         .video-container {
             position: relative;
             width: 100%;
