@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samadhi Rahal - Artist & Editor</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -495,9 +496,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
     
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         
         const firebaseConfig = {
           apiKey: "AIzaSyDNUS3pQ7ypCssNjXIo5TqaeFiuGdGQJec",
@@ -599,7 +600,7 @@
                 currentUser = null;
                 closeProfileModal();
                 alert("Logged out successfully!");
-                // Reset UI
+                // Reset UI to DEFAULT (Samadhi's info)
                 uiName.textContent = "Samadhi Rahal";
                 uiTitle.textContent = "Artist/Editor";
                 uiLocation.textContent = "Sri Lanka";
@@ -643,7 +644,8 @@
                 updateUI(data);
                 fillEditForm(data);
             } else {
-                const initialPhoto = 'mama.jpg';
+                // FORCE DEFAULT DATA (Ignore Google Info)
+                const initialPhoto = 'mama.jpg'; 
                 const defaultData = {
                     name: "Samadhi Rahal",
                     title: "Artist/Editor",
