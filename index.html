@@ -4,31 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samadhi Rahal - Artist & Editor</title>
-    
-    <meta name="description" content="Samadhi Rahal - Professional Artist & Editor from Sri Lanka. Connect with me on social media and explore my creative work.">
-    <meta name="keywords" content="Samadhi Rahal, Artist, Editor, Sri Lanka, Creative, Digital Art">
-    <meta name="author" content="Samadhi Rahal">
-    
-    <meta property="og:title" content="Samadhi Rahal - Artist & Editor">
-    <meta property="og:description" content="Professional Artist & Editor from Sri Lanka. Connect with me on social media and explore my creative work.">
-    <meta property="og:type" content="profile">
-    <meta property="og:url" content="https://samadhirahal.com">
-    <meta property="og:site_name" content="Samadhi Rahal Portfolio">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Samadhi Rahal - Artist & Editor">
-    <meta name="twitter:description" content="Professional Artist & Editor from Sri Lanka. Connect with me on social media and explore my creative work.">
+    <meta name="description" content="Samadhi Rahal - Professional Artist & Editor from Sri Lanka.">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', 'Poppins', 'Roboto', sans-serif;
@@ -41,807 +24,345 @@
 
         /* Background Image */
         .bg-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 110%;
-            height: 110%;
-            background-position: center center;
-            background-size: cover;
-            background-repeat: no-repeat;
+            position: fixed; top: 0; left: 0; width: 110%; height: 110%;
+            background-position: center center; background-size: cover; background-repeat: no-repeat;
             transform: translate3d(-5%, -5%, 0) scale(1.05);
-            transition: transform 0.045s linear;
-            z-index: -3;
-            will-change: transform;
-            filter: brightness(0.85);
+            transition: transform 0.045s linear; z-index: -3; will-change: transform; filter: brightness(0.85);
         }
 
         /* Mouse network canvas */
         #bgMouseCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-            pointer-events: none;
-            display: block;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2; pointer-events: none; display: block;
         }
 
         /* Main Container */
         .main-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 50px 20px; 
-            width: 100%;
+            display: flex; justify-content: center; align-items: center;
+            padding: 50px 20px; width: 100%;
         }
-
-        .main-container:first-child {
-            min-height: 100vh;
-        }
+        .main-container:first-child { min-height: 100vh; }
 
         /* Glass Containers */
         .glass-container {
-            position: relative;
-            z-index: 2;
-            backdrop-filter: none;
-            background: linear-gradient(145deg, 
-                rgba(255, 255, 255, 0.2) 0%, 
-                rgba(255, 255, 255, 0.08) 50%,
-                rgba(255, 255, 255, 0.04) 100%);
-            border-radius: 30px;
-            padding: 26px 40px;
-            max-width: 550px;
-            width: 100%;
-            text-align: center;
-            overflow: hidden;
-            box-shadow: 
-                0 25px 45px rgba(0, 0, 0, 0.1),
-                0 15px 35px rgba(0, 0, 0, 0.05);
+            position: relative; z-index: 2; backdrop-filter: none;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.04) 100%);
+            border-radius: 30px; padding: 26px 40px; max-width: 550px; width: 100%;
+            text-align: center; overflow: hidden;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.05);
         }
 
         .glass-container .lg-bend {
-            backdrop-filter: blur(1.5px);
-            border-radius: 30px;
-            filter: url(#glass-blur);
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 0;
+            backdrop-filter: blur(1.5px); border-radius: 30px; filter: url(#glass-blur);
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
         }
-
         .glass-container .lg-face {
-            border-radius: 30px;
-            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15), 0 0 12px rgba(0, 0, 0, 0.08);
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 1;
+            border-radius: 30px; box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15), 0 0 12px rgba(0, 0, 0, 0.08);
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
         }
-
         .glass-container .lg-edge {
-            border-radius: 30px;
-            box-shadow: inset 3px 3px 3px 0 rgba(255, 255, 255, 0.45),
-                inset -3px -3px 3px 0 rgba(255, 255, 255, 0.45);
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 2;
+            border-radius: 30px; 
+            box-shadow: inset 3px 3px 3px 0 rgba(255, 255, 255, 0.45), inset -3px -3px 3px 0 rgba(255, 255, 255, 0.45);
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 2;
         }
-
-        .glass-content {
-            position: relative;
-            z-index: 3;
-        }
+        .glass-content { position: relative; z-index: 3; }
 
         /* Glass reflection effects */
         .glass-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, 
-                rgba(255, 255, 255, 0.15) 0%,
-                rgba(255, 255, 255, 0.04) 50%,
-                transparent 100%);
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 100%);
             border-radius: 30px 30px 0 0;
         }
-
         .glass-container::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            right: 2px;
-            height: 2px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(255, 255, 255, 0.5) 20%,
-                rgba(255, 255, 255, 0.7) 50%,
-                rgba(255, 255, 255, 0.5) 80%,
-                transparent 100%);
+            content: ''; position: absolute; top: 2px; left: 2px; right: 2px; height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 20%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.5) 80%, transparent 100%);
             border-radius: 30px;
         }
 
         /* Profile elements */
         .profile-image {
-            width: 104px;
-            height: 104px;
-            border-radius: 50%;
-            margin: 20px auto 25px;
-            background: linear-gradient(145deg, 
-                rgba(255, 255, 255, 0.25), 
-                rgba(255, 255, 255, 0.08));
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            font-weight: 600;
-            color: white;
-            box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.1),
-                inset 0 2px 10px rgba(255, 255, 255, 0.15);
-            font-family: 'Inter', sans-serif;
-            overflow: hidden;
-            position: relative;
+            width: 104px; height: 104px; border-radius: 50%; margin: 20px auto 25px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.08));
+            backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center;
+            font-size: 40px; font-weight: 600; color: white;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), inset 0 2px 10px rgba(255, 255, 255, 0.15);
+            font-family: 'Inter', sans-serif; overflow: hidden; position: relative;
         }
-
-        .profile-avatar {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
+        .profile-avatar { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
         /* Discord Status Badge */
         .discord-status {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: bold;
-            backdrop-filter: blur(10px);
-            z-index: 10;
+            position: absolute; bottom: 5px; right: 5px; width: 24px; height: 24px;
+            border-radius: 50%; border: 3px solid rgba(255, 255, 255, 0.9);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: bold; backdrop-filter: blur(10px); z-index: 10;
         }
-
         .discord-status.online { background: #43b581; color: #43b581; }
         .discord-status.idle { background: #faa61a; color: white; }
         .discord-status.dnd { background: #f04747; color: white; }
         .discord-status.offline { background: #747f8d; color: white; }
 
         .name {
-            font-family: 'Inter', sans-serif;
-            font-size: 2.2em;
-            font-weight: 800;
-            margin-bottom: 8px;
+            font-family: 'Inter', sans-serif; font-size: 2.2em; font-weight: 800; margin-bottom: 8px;
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.02em;
-            position: relative;
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-            text-align: center;
-            display: block;
+            background-size: 400% 400%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; letter-spacing: -0.02em; position: relative;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3); text-align: center; display: block;
         }
 
         .title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.08em;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 500;
-            text-align: center;
-            display: block;
+            font-family: 'Poppins', sans-serif; font-size: 1.08em; color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px; text-transform: uppercase; letter-spacing: 3px; font-weight: 500;
+            text-align: center; display: block;
         }
 
         .location {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95em;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 20px;
-            font-weight: 400;
-            text-align: center;
-            display: block;
+            font-family: 'Inter', sans-serif; font-size: 0.95em; color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px; font-weight: 400; text-align: center; display: block;
         }
 
         .status {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85em;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 30px;
-            font-weight: 400;
-            font-style: italic;
-            text-align: center;
-            display: block;
+            font-family: 'Inter', sans-serif; font-size: 0.85em; color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px; font-weight: 400; font-style: italic; text-align: center; display: block;
         }
 
         /* --- BUTTON STYLES --- */
         .liquid-btn {
-            font-family: 'Inter', sans-serif;
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
+            font-family: 'Inter', sans-serif; text-decoration: none; color: white;
+            font-weight: 600; font-size: 16px; transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+            cursor: pointer; position: relative; overflow: hidden;
             backdrop-filter: blur(12px) saturate(1.2);
-            background: linear-gradient(145deg, 
-                rgba(255, 255, 255, 0.12), 
-                rgba(255, 255, 255, 0.04));
-            box-shadow: 
-                0 8px 20px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.25);
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            border: none; display: flex; align-items: center; justify-content: center;
+            border-radius: 15px;
         }
-
         .liquid-btn:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(145deg, 
-                rgba(255, 255, 255, 0.2), 
-                rgba(255, 255, 255, 0.08));
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
         }
 
-        /* Specific Hire Me Button Style (Liquid Glass) */
+        /* Specific Hire Me Button Style */
         .hire-trigger {
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)) !important;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
             animation: pulse-glass 3s infinite;
         }
-
         @keyframes pulse-glass {
             0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1); }
             70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
         }
 
-        /* WHATSAPP & DISCORD BUTTON COLORS */
-        .btn-whatsapp {
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3) !important;
-        }
-        .btn-discord {
-            background: linear-gradient(135deg, #5865F2 0%, #404EED 100%) !important;
-            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3) !important;
-        }
+        .btn-whatsapp { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3) !important; }
+        .btn-discord { background: linear-gradient(135deg, #5865F2 0%, #404EED 100%) !important; box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3) !important; }
 
         /* Modal Overlay */
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
+            z-index: 9999; display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* Updated: Ensure modal has scroll if content is long */
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
         .modal-overlay .glass-container {
-            transform: scale(0.8) translateY(50px);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            max-height: 90vh; /* Prevent overflowing screen */
-            overflow-y: auto; /* Allow scroll inside modal */
+            transform: scale(0.8) translateY(50px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 90vh; overflow-y: auto;
         }
+        .modal-overlay.active .glass-container { transform: scale(1) translateY(0); }
 
-        .modal-overlay.active .glass-container {
-            transform: scale(1) translateY(0);
+        /* Forms */
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 0.9em; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea, .form-group-input {
+            width: 100%; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px; padding: 12px; color: white; font-family: 'Poppins', sans-serif; outline: none; transition: all 0.3s ease;
         }
-
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.5); box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
         }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: 500;
-        }
-
-        .form-group input, 
-        .form-group select, 
-        .form-group textarea {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 12px;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus, 
-        .form-group select:focus, 
-        .form-group textarea:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-        }
-
-        .form-group select option {
-            background: #1e3c72; 
-            color: white;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .form-actions button {
-            flex: 1;
-            border-radius: 15px;
-            padding: 12px;
-            font-size: 0.95em;
-        }
+        .form-group select option { background: #1e3c72; color: white; }
+        .form-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .form-actions button { flex: 1; padding: 12px; font-size: 0.95em; }
 
         /* Contact Section */
-        .contact-section {
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
+        .contact-section { margin-top: 30px; padding-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.2); display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
         .contact-item {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(145deg, 
-                rgba(255, 255, 255, 0.12), 
-                rgba(255, 255, 255, 0.04));
-            padding: 15px 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 12px;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-            flex: 1;
-            max-width: 300px;
+            font-family: 'Inter', sans-serif; background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+            padding: 15px 20px; border-radius: 15px; cursor: pointer; transition: all 0.3s ease; font-size: 12px; font-weight: 500;
+            backdrop-filter: blur(10px); position: relative; overflow: hidden; flex: 1; max-width: 300px;
         }
-
-        .contact-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .contact-item:hover::before { left: 100%; }
-        .contact-item:hover {
-            transform: translateY(-5px);
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
+        .contact-item:hover { transform: translateY(-5px); background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08)); }
 
         /* Notification */
         .notification {
-            font-family: 'Inter', sans-serif;
-            position: fixed;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: linear-gradient(145deg, rgba(76, 175, 80, 0.9), rgba(56, 142, 60, 0.9));
-            color: white;
-            padding: 15px 25px;
-            border-radius: 15px;
-            opacity: 0;
-            transition: all 0.4s ease;
-            z-index: 10000;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            font-weight: 500;
+            font-family: 'Inter', sans-serif; position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: linear-gradient(145deg, rgba(76, 175, 80, 0.9), rgba(56, 142, 60, 0.9)); color: white; padding: 15px 25px;
+            border-radius: 15px; opacity: 0; transition: all 0.4s ease; z-index: 10000; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); font-weight: 500;
         }
         .notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         /* Liquid Glass Menu */
         .liquid-glass {
-            --glass-size-w: 13rem;
-            --glass-size-h: 13rem;
-            --glass-padding: 1.3rem;
-            --border-radius: 2rem;
-            --transition: 0.4s cubic-bezier(0.5, 1.5, 0.5, 1);
-            --menu-gap: 0.8rem;
-            --icon-size: 3rem;
-            --icon-border-radius: 0.85rem;
-            --icon-padding: 0.6rem;
-            border-radius: var(--border-radius);
-            cursor: grab;
-            height: var(--glass-size-h);
-            padding: var(--glass-padding);
-            position: relative;
-            transition: width var(--transition), height var(--transition), padding var(--transition);
-            width: var(--glass-size-w);
-            z-index: 3;
-            margin: 0 auto 28px;
-            backdrop-filter: blur(2px) saturate(1.1);
-            background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%);
-            will-change: transform;
+            --glass-size-w: 13rem; --glass-size-h: 13rem; --glass-padding: 1.3rem; --border-radius: 2rem;
+            --transition: 0.4s cubic-bezier(0.5, 1.5, 0.5, 1); --menu-gap: 0.8rem; --icon-size: 3rem;
+            --icon-border-radius: 0.85rem; --icon-padding: 0.6rem;
+            border-radius: var(--border-radius); cursor: grab; height: var(--glass-size-h); padding: var(--glass-padding);
+            position: relative; transition: width var(--transition), height var(--transition), padding var(--transition);
+            width: var(--glass-size-w); z-index: 3; margin: 0 auto 28px;
+            backdrop-filter: blur(2px) saturate(1.1); background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%);
         }
-
-        .liquid-glass.is-expanded {
-            --glass-size-w: 28rem;
-            --glass-size-h: 28rem;
-            --glass-padding: 1.4rem;
-        }
-
-        .liquid-glass--bend, .liquid-glass--face, .liquid-glass--edge { display: none; }
-
-        .liquid-glass__menus {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--menu-gap);
-            place-items: center;
-            place-content: center;
-            height: 100%;
-        }
-
-        .liquid-glass.is-expanded .liquid-glass__menus {
-            --menu-gap: 1rem;
-            grid-template-columns: repeat(3, 1fr);
-            place-content: center;
-        }
-
-        /* --- ICONS: 3x3 Grid, Liquid Glass Effect, Pop & Glow --- */
+        .liquid-glass.is-expanded { --glass-size-w: 28rem; --glass-size-h: 28rem; --glass-padding: 1.4rem; }
+        .liquid-glass__menus { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--menu-gap); place-items: center; place-content: center; height: 100%; }
+        .liquid-glass.is-expanded .liquid-glass__menus { --menu-gap: 1rem; }
         .liquid-glass__link {
-            border-radius: var(--icon-border-radius);
-            display: flex;
-            height: var(--icon-size);
-            padding: var(--icon-padding);
-            pointer-events: none;
-            width: var(--icon-size);
-            z-index: 3;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 
-                0 4px 6px rgba(0, 0, 0, 0.1),
-                inset 1px 1px 2px rgba(255, 255, 255, 0.6),
-                inset -1px -1px 2px rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(4px);
-            overflow: visible; 
+            border-radius: var(--icon-border-radius); display: flex; height: var(--icon-size); padding: var(--icon-padding);
+            pointer-events: none; width: var(--icon-size); z-index: 3; text-decoration: none; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: rgba(255, 255, 255, 0.1); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 1px 1px 2px rgba(255, 255, 255, 0.6), inset -1px -1px 2px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(4px);
         }
-
-        .liquid-glass__icon {
-            width: 100%;
-            height: 100%;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
-        }
-
-        .liquid-glass.is-expanded .liquid-glass__link {
-            --icon-size: 5rem;
-            --icon-border-radius: 1.2rem;
-            --icon-padding: 0.9rem;
-            cursor: default;
-            pointer-events: auto;
-        }
-
-        /* HOVER POP EFFECT */
+        .liquid-glass__icon { width: 100%; height: 100%; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease; }
+        .liquid-glass.is-expanded .liquid-glass__link { --icon-size: 5rem; --icon-border-radius: 1.2rem; --icon-padding: 0.9rem; cursor: default; pointer-events: auto; }
         .liquid-glass.is-expanded .liquid-glass__link:hover {
-            transform: translateY(-10px); 
-            background: rgba(255, 255, 255, 0.2); 
-            box-shadow: 
-                0 15px 25px rgba(0, 0, 0, 0.3),
-                inset 1px 1px 2px rgba(255, 255, 255, 0.9),
-                inset -1px -1px 2px rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            z-index: 10;
+            transform: translateY(-10px); background: rgba(255, 255, 255, 0.2); box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3), inset 1px 1px 2px rgba(255, 255, 255, 0.9), inset -1px -1px 2px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5); z-index: 10;
         }
-
-        .liquid-glass.is-expanded .liquid-glass__link:hover .liquid-glass__icon {
-            transform: scale(1); 
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
-        }
-
-        .link-linkedin { }
+        .liquid-glass.is-expanded .liquid-glass__link:hover .liquid-glass__icon { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); }
         
-        /* --- ADDITIONAL SECTIONS STYLES --- */
-        .glass-container.glass-container--wide {
-            max-width: 900px;
-            text-align: left;
-            padding: 40px 50px;
-        }
-
-        .section-title {
-            font-family: 'Inter', sans-serif;
-            font-size: 2em;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: white;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 10px;
-        }
-
-        .section-text {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.1em;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-            font-weight: 400;
-        }
-
-        /* Skills Section */
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
+        .glass-container.glass-container--wide { max-width: 900px; text-align: left; padding: 40px 50px; }
+        .section-title { font-family: 'Inter', sans-serif; font-size: 2em; font-weight: 700; margin-bottom: 25px; color: white; text-shadow: 0 0 20px rgba(255, 255, 255, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding-bottom: 10px; }
+        .section-text { font-family: 'Poppins', sans-serif; font-size: 1.1em; color: rgba(255, 255, 255, 0.9); line-height: 1.6; font-weight: 400; }
+        
+        /* Skills & Portfolio */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
         .skill-tag {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(145deg, 
-                rgba(255, 255, 255, 0.12), 
-                rgba(255, 255, 255, 0.04));
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-size: 0.95em;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif; background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+            padding: 10px 18px; border-radius: 10px; font-size: 0.95em; font-weight: 500; backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;
         }
-
-        .skill-tag:hover {
-            transform: translateY(-3px);
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        /* My Work Section */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
+        .skill-tag:hover { transform: translateY(-3px); background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08)); }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
         .portfolio-item {
-            aspect-ratio: 4 / 3;
-            border-radius: 15px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            text-decoration: none;
-            color: white;
+            aspect-ratio: 4 / 3; border-radius: 15px; background-size: cover; background-position: center; position: relative;
+            overflow: hidden; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); transition: transform 0.4s ease, box-shadow 0.4s ease; text-decoration: none; color: white;
         }
-
-        .portfolio-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-        }
-
+        .portfolio-item:hover { transform: scale(1.05); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3); }
         .portfolio-item-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
-            padding: 40px 20px 20px;
-            transition: opacity 0.4s ease;
-            opacity: 1;
+            position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+            padding: 40px 20px 20px; transition: opacity 0.4s ease; opacity: 1;
         }
-        
-        .portfolio-item-overlay h3 {
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 1.2em;
-            margin-bottom: 5px;
-        }
+        .portfolio-item-overlay h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1.2em; margin-bottom: 5px; }
+        .portfolio-item-overlay p { font-family: 'Poppins', sans-serif; font-size: 0.9em; color: rgba(255, 255, 255, 0.8); }
 
-        .portfolio-item-overlay p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.8);
-        }
+        .video-container { position: relative; width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); background: rgba(0, 0, 0, 0.2); margin-top: 10px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .showreel-video { width: 100%; height: auto; display: block; object-fit: cover; border-radius: 20px; transform: scale(1.01); }
 
-        /* --- SHOWREEL STYLES --- */
-        .video-container {
-            position: relative;
-            width: 100%;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            background: rgba(0, 0, 0, 0.2);
-            margin-top: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .showreel-video {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-            border-radius: 20px;
-            transform: scale(1.01);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .glass-container { max-width: 90%; padding: 31.5px 54px; }
-            .social-grid { gap: 18px; }
-        }
-
+        /* Media Queries */
+        @media (max-width: 1024px) { .glass-container { max-width: 90%; } }
         @media (max-width: 768px) {
-            .main-container { padding: 20px 15px; }
-            .main-container:first-child { min-height: 100vh; padding-top: 40px; padding-bottom: 40px; }
             .bg-image { transform: none !important; transition: none !important; }
             #bgMouseCanvas { display: none !important; }
             .glass-container { padding: 27px 36px; max-width: 100%; }
-            .glass-container.glass-container--wide { padding: 30px 25px; }
-            .social-grid { gap: 16.2px; }
-            .liquid-btn { width: 45px; height: 45px; font-size: 14.4px; }
-            .name { font-size: 2.1em; }
-            .contact-section { flex-direction: column; gap: 13.5px; }
-            .contact-item { font-size: 11.7px; padding: 10.8px 14.4px; }
             .liquid-glass {
-                --glass-size-w: 14rem; --glass-size-h: 14rem; --glass-padding: 1.4rem; --menu-gap: 0.9rem; --icon-size: 3.25rem; --icon-padding: 0.65rem;
+                --glass-size-w: 14rem; --glass-size-h: 14rem; --glass-padding: 1.4rem; --menu-gap: 0.9rem; --icon-size: 3.25rem;
                 backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: 0 6px 14px rgba(0,0,0,0.12);
             }
-            .liquid-glass__menus { grid-template-columns: repeat(3, 1fr); }
-            .liquid-glass.is-expanded { --glass-size-w: 24rem; --glass-size-h: 24rem; --glass-padding: 1.3rem; }
-            .liquid-glass.is-expanded .liquid-glass__link { --icon-size: 4.5rem; --icon-padding: 0.85rem; }
-            
+            .liquid-glass.is-expanded { --glass-size-w: 24rem; --glass-size-h: 24rem; }
             .form-actions { flex-direction: column; }
         }
-
         @media (max-width: 480px) {
             .glass-container { padding: 22.5px 18px; }
-            .glass-container.glass-container--wide { padding: 30px 20px; }
-            .social-grid { gap: 13.5px; }
-            .liquid-btn { width: 40.5px; height: 40.5px; font-size: 12.6px; backdrop-filter: none; -webkit-backdrop-filter: none; }
-            .name { font-size: 1.8em; }
-            .profile-image { width: 100px; height: 100px; font-size: 40px; backdrop-filter: none; -webkit-backdrop-filter: none; }
-            .discord-status { width: 20px; height: 20px; font-size: 10px; }
-            .liquid-glass { --glass-size-w: 12rem; --glass-size-h: 12rem; --menu-gap: 0.8rem; --icon-size: 3rem; backdrop-filter: none; -webkit-backdrop-filter: none; }
+            .liquid-glass { --glass-size-w: 12rem; --glass-size-h: 12rem; --icon-size: 3rem; }
             .liquid-glass.is-expanded { --glass-size-w: 20rem; --glass-size-h: 20rem; }
-            .liquid-glass.is-expanded .liquid-glass__link { --icon-size: 4rem; }
             .portfolio-grid { grid-template-columns: 1fr; }
         }
+        .liquid-glass--bend, .liquid-glass--face, .liquid-glass--edge { display: none; }
     </style>
 </head>
 <body>
     <div class="bg-image" id="bgImage" style="background-image: url('accets/BG8.2.png');"></div>
-
     <canvas id="bgMouseCanvas"></canvas>
-
     <div class="notification" id="notification"></div>
-    
+
+    <div style="position: absolute; top: 20px; right: 20px; z-index: 100;">
+        <button id="authBtn" class="liquid-btn" style="padding: 10px 20px; border-radius: 20px; font-size: 14px;">
+            Login <i class="fas fa-lock" style="margin-left: 8px;"></i>
+        </button>
+    </div>
+
+    <div id="authSelectionModal" class="modal-overlay">
+        <div class="glass-container" style="max-width: 400px; padding: 40px 30px; text-align: center;">
+            <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
+            <div class="glass-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <h2 class="section-title" style="margin: 0; font-size: 1.6em; border: none;">Sign In</h2>
+                    <i class="fas fa-times" onclick="closeAuthSelectionModal()" style="cursor: pointer; font-size: 1.5em; opacity: 0.7;"></i>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    
+                    <button onclick="signInWithProvider('google')" class="liquid-btn" style="padding: 16px 20px; font-size: 1.1em; background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.25);">
+                        <i class="fab fa-google" style="margin-right: 15px; color: #fff;"></i> Continue with Google
+                    </button>
+                    
+                    <button onclick="signInWithProvider('apple')" class="liquid-btn" style="padding: 16px 20px; font-size: 1.1em; background: linear-gradient(145deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)); border: 1px solid rgba(255,255,255,0.15);">
+                        <i class="fab fa-apple" style="margin-right: 15px;"></i> Continue with Apple
+                    </button>
+                    
+                    <button onclick="openEmailPasswordForm()" class="liquid-btn" style="padding: 16px 20px; font-size: 1.1em; background: linear-gradient(145deg, rgba(56, 178, 172, 0.3), rgba(84, 160, 255, 0.3)); border: 1px solid rgba(84, 160, 255, 0.3);">
+                        <i class="fas fa-envelope" style="margin-right: 15px;"></i> Email / Password
+                    </button>
+                    
+                    <button onclick="openPhoneAuthForm()" class="liquid-btn" style="padding: 16px 20px; font-size: 1.1em; background: linear-gradient(145deg, rgba(76, 175, 80, 0.3), rgba(139, 195, 74, 0.3)); border: 1px solid rgba(139, 195, 74, 0.3);">
+                        <i class="fas fa-phone" style="margin-right: 15px;"></i> Phone Number
+                    </button>
+                </div>
+                <div id="authFormsContainer" style="margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal-overlay">
+        <div class="glass-container" style="max-width: 500px; padding: 40px 30px; text-align: left;">
+            <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
+            <div class="glass-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 class="section-title" style="margin: 0; font-size: 1.8em; border: none;">Edit Profile</h2>
+                    <i class="fas fa-times" onclick="closeEditModal()" style="cursor: pointer; font-size: 1.5em; opacity: 0.7;"></i>
+                </div>
+                <form id="editForm">
+                    <div class="form-group"><label>Display Name</label><input type="text" id="editName" placeholder="Your Name"></div>
+                    <div class="form-group"><label>Title / Job</label><input type="text" id="editTitle" placeholder="Artist/Editor"></div>
+                    <div class="form-group"><label>Location</label><input type="text" id="editLocation" placeholder="Sri Lanka"></div>
+                    <div class="form-group"><label>About Me</label><textarea id="editAbout" rows="4" placeholder="Update your bio..."></textarea></div>
+                    <div class="form-actions">
+                        <button type="submit" class="liquid-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">Save Changes <i class="fas fa-save" style="margin-left: 8px;"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div id="hireModal" class="modal-overlay">
         <div class="glass-container" style="max-width: 500px; padding: 40px 30px; text-align: left;">
-            <div class="lg-bend"></div>
-            <div class="lg-face"></div>
-            <div class="lg-edge"></div>
-            
+            <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
             <div class="glass-content">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h2 class="section-title" style="margin: 0; font-size: 1.8em; border: none;">Start a Project</h2>
                     <i class="fas fa-times" onclick="closeHireModal()" style="cursor: pointer; font-size: 1.5em; opacity: 0.7;"></i>
                 </div>
-                
                 <form id="hireForm">
-                    <div class="form-group">
-                        <label>Your Name</label>
-                        <input type="text" id="clientName" placeholder="John Doe" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" id="clientEmail" placeholder="john@example.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Service Needed</label>
-                        <select id="clientService" required>
-                            <option value="" disabled selected>Select a service...</option>
-                            <option value="Video Editing">Video Editing</option>
-                            <option value="Digital Art">Digital Art</option>
-                            <option value="Motion Graphics">Motion Graphics</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Type of Content</label>
-                        <select id="clientContentType" required>
-                            <option value="" disabled selected>Select type...</option>
-                            <option value="Short Form (Reels/TikTok)">Short Form (Reels/TikTok)</option>
-                            <option value="Long Form (YouTube)">Long Form (YouTube)</option>
-                            <option value="Stream Highlights">Stream Highlights</option>
-                            <option value="Commercial/Ad">Commercial/Ad</option>
-                            <option value="Gaming Montage">Gaming Montage</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Budget (USD/LKR)</label>
-                        <select id="clientBudget" required>
-                            <option value="" disabled selected>Select range...</option>
-                            <option value="Less than $50">Less than $50</option>
-                            <option value="$50 - $100">$50 - $100</option>
-                            <option value="$100 - $300">$100 - $300</option>
-                            <option value="$300+">$300+</option>
-                            <option value="Negotiable">Negotiable</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Style Reference Link (Optional)</label>
-                        <input type="url" id="clientRefLink" placeholder="https://youtube.com/..." style="font-family: 'Inter', sans-serif;">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Project Details</label>
-                        <textarea id="clientMessage" rows="4" placeholder="Tell me about your project..." required></textarea>
-                    </div>
-
+                    <div class="form-group"><label>Your Name</label><input type="text" id="clientName" placeholder="John Doe" required></div>
+                    <div class="form-group"><label>Email Address</label><input type="email" id="clientEmail" placeholder="john@example.com" required></div>
+                    <div class="form-group"><label>Service Needed</label><select id="clientService" required><option value="" disabled selected>Select a service...</option><option value="Video Editing">Video Editing</option><option value="Digital Art">Digital Art</option><option value="Motion Graphics">Motion Graphics</option><option value="Other">Other</option></select></div>
+                    <div class="form-group"><label>Type of Content</label><select id="clientContentType" required><option value="" disabled selected>Select type...</option><option value="Short Form (Reels/TikTok)">Short Form (Reels/TikTok)</option><option value="Long Form (YouTube)">Long Form (YouTube)</option><option value="Stream Highlights">Stream Highlights</option><option value="Commercial/Ad">Commercial/Ad</option><option value="Gaming Montage">Gaming Montage</option><option value="Other">Other</option></select></div>
+                    <div class="form-group"><label>Budget (USD/LKR)</label><select id="clientBudget" required><option value="" disabled selected>Select range...</option><option value="Less than $50">Less than $50</option><option value="$50 - $100">$50 - $100</option><option value="$100 - $300">$100 - $300</option><option value="$300+">$300+</option><option value="Negotiable">Negotiable</option></select></div>
+                    <div class="form-group"><label>Style Reference Link (Optional)</label><input type="url" id="clientRefLink" placeholder="https://youtube.com/..."></div>
+                    <div class="form-group"><label>Project Details</label><textarea id="clientMessage" rows="4" placeholder="Tell me about your project..." required></textarea></div>
                     <div class="form-actions">
-                        <button onclick="sendToWhatsapp(event)" class="liquid-btn btn-whatsapp">
-                            WhatsApp <i class="fab fa-whatsapp" style="margin-left: 8px;"></i>
-                        </button>
-                        <button onclick="sendToDiscord(event)" class="liquid-btn btn-discord">
-                            Discord <i class="fab fa-discord" style="margin-left: 8px;"></i>
-                        </button>
+                        <button onclick="sendToWhatsapp(event)" class="liquid-btn btn-whatsapp">WhatsApp <i class="fab fa-whatsapp" style="margin-left: 8px;"></i></button>
+                        <button onclick="sendToDiscord(event)" class="liquid-btn btn-discord">Discord <i class="fab fa-discord" style="margin-left: 8px;"></i></button>
                     </div>
                 </form>
             </div>
@@ -850,15 +371,11 @@
 
     <div class="main-container">
         <div class="glass-container">
-            <div class="lg-bend"></div>
-            <div class="lg-face"></div>
-            <div class="lg-edge"></div>
+            <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
             <div class="glass-content">
                 <div class="profile-image" id="profileImage">
                     <img src="mama.jpg" alt="Profile Photo" class="profile-avatar">
-                    <div class="discord-status offline" id="discordStatusBadge">
-                        <i class="fas fa-circle"></i>
-                    </div>
+                    <div class="discord-status offline" id="discordStatusBadge"><i class="fas fa-circle"></i></div>
                 </div>
                 <h1 class="name" id="displayName">Samadhi Rahal</h1>
                 <p class="title">Artist/Editor</p>
@@ -867,9 +384,7 @@
                 
                 <div>
                     <div class="liquid-glass">
-                        <div class="liquid-glass--bend"></div>
-                        <div class="liquid-glass--face"></div>
-                        <div class="liquid-glass--edge"></div>
+                        <div class="liquid-glass--bend"></div><div class="liquid-glass--face"></div><div class="liquid-glass--edge"></div>
                         <div class="liquid-glass__menus">
                             <a class="liquid-glass__link link-linkedin" href="https://www.linkedin.com/in/samadhi-rahal-samarasinghe-a6b095313/" target="_blank" title="LinkedIn">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 93.06 93.06"><path class="liquid-glass__icon" fill="#fff" d="M11.185.08C5.004.08.001 5.092 0 11.259c0 6.173 5.003 11.184 11.186 11.184 6.166 0 11.176-5.011 11.176-11.184C22.362 5.091 17.351.08 11.185.08zM1.538 30.926h19.287V92.98H1.538zM69.925 29.383c-9.382 0-15.673 5.144-18.248 10.022h-.258v-8.479H32.92v62.053h19.27V62.281c0-8.093 1.541-15.932 11.575-15.932 9.89 0 10.022 9.256 10.022 16.451v30.178H93.06V58.942c0-16.707-3.605-29.559-23.135-29.559z" /></svg>
@@ -901,14 +416,9 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="contact-section">
-                    <div class="contact-item" onclick="copyText('rahalbro2007@gmail.com')" title="Click to copy email">
-                        <i class="fas fa-envelope"></i> rahalbro2007@gmail.com
-                    </div>
-                    <div class="contact-item" onclick="copyText('+94 702 241 785')" title="Click to copy phone">
-                        <i class="fas fa-phone"></i> +94 702 241 785
-                    </div>
+                    <div class="contact-item" onclick="copyText('rahalbro2007@gmail.com')" title="Click to copy email"><i class="fas fa-envelope"></i> rahalbro2007@gmail.com</div>
+                    <div class="contact-item" onclick="copyText('+94 702 241 785')" title="Click to copy phone"><i class="fas fa-phone"></i> +94 702 241 785</div>
                 </div>
             </div>
         </div>
@@ -916,44 +426,26 @@
 
     <div class="main-container">
         <div class="glass-container glass-container--wide">
-            <div class="lg-bend"></div>
-            <div class="lg-face"></div>
-            <div class="lg-edge"></div>
+            <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
             <div class="glass-content">
                 <h2 class="section-title">Let's Work Together</h2>
-                <p class="section-text" style="margin-bottom: 25px;">
-                    Looking for a professional editor or artist for your next project? 
-                    Click below to start a conversation.
-                </p>
-                <button class="liquid-btn hire-trigger" onclick="openHireModal()" style="width: 200px; height: 55px; border-radius: 30px; font-size: 1.2em; margin: 0 auto;">
-                    Hire Me <i class="fas fa-briefcase" style="margin-left: 10px;"></i>
-                </button>
+                <p class="section-text" style="margin-bottom: 25px;">Looking for a professional editor or artist for your next project? Click below to start a conversation.</p>
+                <button class="liquid-btn hire-trigger" onclick="openHireModal()" style="width: 200px; height: 55px; border-radius: 30px; font-size: 1.2em; margin: 0 auto;">Hire Me <i class="fas fa-briefcase" style="margin-left: 10px;"></i></button>
             </div>
         </div>
     </div>
+
     <div class="main-container">
         <div class="glass-container glass-container--wide">
-            <div class="lg-bend"></div>
-            <div class="lg-face"></div>
-            <div class="lg-edge"></div>
+            <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
             <div class="glass-content">
                 <h2 class="section-title">About Me</h2>
-                <p class="section-text">
-                    I’m Samadhi Rahal Samarasinghe — an editor, artist, and content-maker 
-                    who believes good work starts with respect for the craft. 
-                    I draw and paint, edit cinematic videos, and help creators present their best work online. 
-                    I learned to value the old-school methods because they teach discipline; I use modern tools because they let the vision breathe.<br>
-                    <br>
-
-                    work covers gaming and tech videos, cinematic edits, and polished photo and motion projects. 
-                    I push for clarity and depth: no flashy shortcuts, just choices that actually serve the story. 
-                    I question every trend — it keeps me honest, and it keeps the output useful tomorrow, not just loud today.<br>
-                    <br>
-
-                    If you want edits that look good and mean something,
-                     or art that’s been built, not slapped together, send a note. I collaborate, edit,
-                      and make things that outlast trends. — Samadhi<br>
-                    <br><br>
+                <p class="section-text" id="aboutText">
+                    I’m Samadhi Rahal Samarasinghe — an editor, artist, and content-maker who believes good work starts with respect for the craft. 
+                    I draw and paint, edit cinematic videos, and help creators present their best work online.<br><br>
+                    Work covers gaming and tech videos, cinematic edits, and polished photo and motion projects. 
+                    I push for clarity and depth: no flashy shortcuts, just choices that actually serve the story.<br><br>
+                    If you want edits that look good and mean something, or art that’s been built, not slapped together, send a note. — Samadhi
                 </p>
             </div>
         </div>
@@ -961,16 +453,10 @@
 
     <div class="main-container">
         <div class="glass-container glass-container--wide">
-            <div class="lg-bend"></div>
-            <div class="lg-face"></div>
-            <div class="lg-edge"></div>
-            
+            <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
             <div class="glass-content">
                 <h2 class="section-title">Showreel</h2>
-                <p class="section-text" style="margin-bottom: 20px;">
-                    A selection of my best edits and motion work.
-                </p>
-                
+                <p class="section-text" style="margin-bottom: 20px;">A selection of my best edits and motion work.</p>
                 <div class="video-container">
                     <video class="showreel-video" autoplay loop muted playsinline controls>
                         <source src="accets/showreel.mp4" type="video/mp4">
@@ -980,133 +466,45 @@
             </div>
         </div>
     </div>
+
     <div class="main-container">
         <div class="glass-container glass-container--wide">
-            <div class="lg-bend"></div>
-            <div class="lg-face"></div>
-            <div class="lg-edge"></div>
+            <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
             <div class="glass-content">
                 <h2 class="section-title">My Skills</h2>
                 <div class="skills-grid">
-                    <span class="skill-tag">Adobe Photoshop</span>
-                    <span class="skill-tag">Adobe Premiere Pro</span>
-                    <span class="skill-tag">Adobe After Effects</span>
-                    <span class="skill-tag">Davinci Resolve (Beginner)</span>
-                    <span class="skill-tag">Video Editing</span>
-                    <span class="skill-tag">Color Grading</span>
-                    <span class="skill-tag">Photo Manipulation</span>
-                    <span class="skill-tag">Motion Graphics (Basic)</span>
-                    <span class="skill-tag">Social Media Content</span>
-                    </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="main-container">
-        <div class="glass-container glass-container--wide">
-            <div class="lg-bend"></div>
-            <div class="lg-face"></div>
-            <div class="lg-edge"></div>
-            <div class="glass-content">
-                <h2 class="section-title">My Work</h2>
-                <div class="portfolio-grid">
-                    
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/13.jpg');">
-                        <div class="portfolio-item-overlay">
-                            <h3>PradMaz</h3>
-                            <p>Video Editor as a PradMaz.</p>
-                        </div>
-                    </a>
-                    
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/1.jpg');">
-                        <div class="portfolio-item-overlay">
-                            <h3>Woukong</h3>
-                            <p>Video editing showcase.</p>
-                        </div>
-                    </a>
-                    
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/2.jpg');">
-                        <div class="portfolio-item-overlay">
-                            <h3>Prad Steup</h3>
-                            <p>Digital art piece.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/3.jpg');">
-                        <div class="portfolio-item-overlay">
-                            <h3>Woukong</h3>
-                            <p>Another description.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/4.jpg');">
-                        <div class="portfolio-item-overlay">
-                            <h3>Assassin's Creed Shadows</h3>
-                            <p>Digital art piece.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/5.jpg');">
-                        <div class="portfolio-item-overlay">
-                            <h3>Expedition 33</h3>
-                            <p>Digital art piece.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/6.png');">
-                        <div class="portfolio-item-overlay">
-                            <h3>Among us</h3>
-                            <p>Digital art piece.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/7.png');">
-                        <div class="portfolio-item-overlay">
-                            <h3>september 7</h3>
-                            <p>Digital art piece.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/8.jpg');">
-                        <div class="portfolio-item-overlay">
-                            <h3>Weekly</h3>
-                            <p>Digital art piece.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/9.jpg');">
-                        <div class="portfolio-item-overlay">
-                            <h3>Woukong</h3>
-                            <p>Digital art piece.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/10.jpg');">
-                        <div class="portfolio-item-overlay">
-                            <h3>Poppy Playtime</h3>
-                            <p>Digital art piece.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/11.jpg');">
-                        <div class="portfolio-item-overlay">
-                            <h3>Fan Art</h3>
-                            <p>Digital art piece.</p>
-                        </div>
-                    </a>
-
-
-                    <a href="#" class="portfolio-item" style="background-image: url('accets/12.jpg');">
-                        <div class="portfolio-item-overlay">
-                            <h3>Art</h3>
-                            <p>Digital art piece.</p>
-                        </div>
-                    </a>
-
+                    <span class="skill-tag">Adobe Photoshop</span><span class="skill-tag">Adobe Premiere Pro</span><span class="skill-tag">Adobe After Effects</span>
+                    <span class="skill-tag">Davinci Resolve (Beginner)</span><span class="skill-tag">Video Editing</span><span class="skill-tag">Color Grading</span>
+                    <span class="skill-tag">Photo Manipulation</span><span class="skill-tag">Motion Graphics (Basic)</span><span class="skill-tag">Social Media Content</span>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="main-container">
+        <div class="glass-container glass-container--wide">
+            <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
+            <div class="glass-content">
+                <h2 class="section-title">My Work</h2>
+                <div class="portfolio-grid">
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/13.jpg');"><div class="portfolio-item-overlay"><h3>PradMaz</h3><p>Video Editor as a PradMaz.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/1.jpg');"><div class="portfolio-item-overlay"><h3>Woukong</h3><p>Video editing showcase.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/2.jpg');"><div class="portfolio-item-overlay"><h3>Prad Steup</h3><p>Digital art piece.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/3.jpg');"><div class="portfolio-item-overlay"><h3>Woukong</h3><p>Another description.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/4.jpg');"><div class="portfolio-item-overlay"><h3>Assassin's Creed Shadows</h3><p>Digital art piece.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/5.jpg');"><div class="portfolio-item-overlay"><h3>Expedition 33</h3><p>Digital art piece.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/6.png');"><div class="portfolio-item-overlay"><h3>Among us</h3><p>Digital art piece.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/7.png');"><div class="portfolio-item-overlay"><h3>september 7</h3><p>Digital art piece.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/8.jpg');"><div class="portfolio-item-overlay"><h3>Weekly</h3><p>Digital art piece.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/9.jpg');"><div class="portfolio-item-overlay"><h3>Woukong</h3><p>Digital art piece.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/10.jpg');"><div class="portfolio-item-overlay"><h3>Poppy Playtime</h3><p>Digital art piece.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/11.jpg');"><div class="portfolio-item-overlay"><h3>Fan Art</h3><p>Digital art piece.</p></div></a>
+                    <a href="#" class="portfolio-item" style="background-image: url('accets/12.jpg');"><div class="portfolio-item-overlay"><h3>Art</h3><p>Digital art piece.</p></div></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <svg style="display: none" xmlns="http://www.w3.org/2000/svg">
         <filter id="glass-blur" x="0" y="0" width="100%" height="100%" filterUnits="objectBoundingBox">
             <feTurbulence type="fractalNoise" baseFrequency="0.004 0.01" numOctaves="1" result="turbulence" />
@@ -1116,171 +514,220 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    
+    <script type="module">
+        // --- 1. FIREBASE IMPORTS (Modular Style) ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        
+        // ---------------------------------------------------------
+        // 2. FIREBASE CONFIGURATION (AUTOMATICALLY INSERTED)
+        // ---------------------------------------------------------
+        const firebaseConfig = {
+          apiKey: "AIzaSyDNUS3pQ7ypCssNjXIo5TqaeFiuGdGQJec",
+          authDomain: "samadhirahal.firebaseapp.com",
+          projectId: "samadhirahal",
+          storageBucket: "samadhirahal.firebasestorage.app",
+          messagingSenderId: "694807598452",
+          appId: "1:694807598452:web:8a0bd5a0caa530c5d7c821",
+          measurementId: "G-R6D45Z0BQP" 
+        };
 
-    <script>
-        const DISCORD_USER_ID = '993191213022847086';
-        const LANYARD_API = `https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`;
+        // Initialize services
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        // --- 3. GLOBAL VARIABLES & DOM Elements ---
+        const authBtn = document.getElementById('authBtn');
+        const editModal = document.getElementById('editModal');
+        const editForm = document.getElementById('editForm');
+        const authSelectionModal = document.getElementById('authSelectionModal');
+        const authFormsContainer = document.getElementById('authFormsContainer');
+        const hireModal = document.getElementById('hireModal');
+        const hireForm = document.getElementById('hireForm');
 
-        // Background parallax - mouse cursor follow
-        const bgImage = document.getElementById('bgImage');
-        // Mouse network canvas effect
-        const mouseCanvas = document.getElementById('bgMouseCanvas');
-        const mouseCtx = mouseCanvas.getContext('2d');
-        let mousePoints = [];
-        let mouseTarget = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-        let viewportW = window.innerWidth;
-        let viewportH = window.innerHeight;
-        function onMouseMove(e) {
-            const x = (e.clientX / viewportW - 0.5) * 2; // -1 to 1
-            const y = (e.clientY / viewportH - 0.5) * 2; // -1 to 1
-            const translateX = -5 - x * 2.5; // base -5% plus movement
-            const translateY = -5 - y * 2.5;
-            bgImage.style.transform = `translate3d(${translateX}%, ${translateY}%, 0) scale(1.05)`;
-            mouseTarget.x = e.clientX;
-            mouseTarget.y = e.clientY;
-        }
-        // Listeners will be attached conditionally (desktop only) inside DOMContentLoaded
+        const uiName = document.getElementById('displayName');
+        const uiTitle = document.querySelector('.title');
+        const uiLocation = document.querySelector('.location');
+        const uiAbout = document.getElementById('aboutText');
+        const profileImg = document.querySelector('.profile-avatar');
 
-        function updateDiscordStatus(status) {
-            const statusBadge = document.getElementById('discordStatusBadge');
-            const statusIcons = {
-                online: 'fas fa-circle',
-                idle: 'fas fa-moon',
-                dnd: 'fas fa-minus-circle',
-                offline: 'fas fa-circle'
-            };
+        let currentUser = null;
 
-            statusBadge.className = `discord-status ${status}`;
-            statusBadge.innerHTML = `<i class="${statusIcons[status] || statusIcons.offline}"></i>`;
-        }
-
-        async function fetchDiscordData() {
-            try {
-                const response = await fetch(LANYARD_API);
-                const data = await response.json();
-                
-                if (data.success) {
-                    const user = data.data;
-                    
-                    // Update profile image
-                    const profileImage = document.getElementById('profileImage');
-                    if (user.discord_user.avatar) {
-                        const avatarUrl = `https://cdn.discordapp.com/avatars/${user.discord_user.id}/${user.discord_user.avatar}.png?size=256`;
-                        const statusBadgeHtml = document.getElementById('discordStatusBadge').outerHTML;
-                        profileImage.innerHTML = `<img src="${avatarUrl}" alt="Profile Avatar" class="profile-avatar">${statusBadgeHtml}`;
-                    }
-                    
-                    // Update display name
-                    const displayName = document.getElementById('displayName');
-                    if (user.discord_user.display_name) {
-                        displayName.textContent = user.discord_user.display_name;
-                    }
-                    
-                    // Update status badge
-                    updateDiscordStatus(user.discord_status);
-                    
-                    // Update status text
-                    const statusElement = document.getElementById('discordStatus');
-                    let statusText = '';
-                    
-                    switch (user.discord_status) {
-                        case 'online':
-                            statusText = 'Online';
-                            break;
-                        case 'idle':
-                            statusText = 'Away';
-                            break;
-                        case 'dnd':
-                            statusText = 'Do Not Disturb';
-                            break;
-                        case 'offline':
-                            statusText = 'Offline';
-                            break;
-                        default:
-                            statusText = 'Unknown';
-                    }
-                    
-                    // Add activity info if available
-                    if (user.activities && user.activities.length > 0) {
-                        const activity = user.activities[0];
-                        if (activity.type === 0) { // Playing
-                            statusText += ` | Playing ${activity.name}`;
-                        } else if (activity.type === 2) { // Listening to Spotify
-                            statusText += ` | Listening to ${activity.details} by ${activity.state}`;
-                        } else if (activity.type === 3) { // Watching
-                            statusText += ` | Watching ${activity.name}`;
-                        } else if (activity.type === 4) { // Custom status
-                            if (activity.state) {
-                                statusText += ` | ${activity.state}`;
-                            }
-                        }
-                    }
-                    
-                    statusElement.textContent = statusText;
-                } else {
-                    document.getElementById('discordStatus').textContent = 'Discord status unavailable';
-                    updateDiscordStatus('offline');
-                }
-            } catch (error) {
-                console.error('Error fetching Discord data:', error);
-                document.getElementById('discordStatus').textContent = 'Failed to load Discord status';
-                updateDiscordStatus('offline');
+        // --- 4. AUTHENTICATION & MODAL LOGIC (Modularized) ---
+        authBtn.addEventListener('click', () => {
+            if (currentUser) {
+                openEditModal();
+            } else {
+                openAuthSelectionModal();
+            }
+        });
+        
+        // Helper to get Provider based on string name
+        function getProviderInstance(providerName) {
+            switch (providerName) {
+                case 'google':
+                    return new GoogleAuthProvider();
+                case 'apple':
+                    alert("Apple Login requires a paid Apple Developer account setup and external keys.");
+                    return null;
+                default:
+                    return null;
             }
         }
 
-        function copyText(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showNotification(`Copied: ${text}`);
-            }).catch(() => {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                showNotification(`Copied: ${text}`);
-            });
+        // Modular Sign In
+        function signInWithProvider(providerName) {
+            const provider = getProviderInstance(providerName);
+            if (!provider) return;
+            
+            closeAuthSelectionModal();
+
+            signInWithPopup(auth, provider)
+                .catch((error) => {
+                    console.error(providerName + " Login Failed:", error);
+                    alert("Login failed: " + error.message);
+                });
+        }
+        window.signInWithProvider = signInWithProvider; // Expose to window for inline usage
+
+        // Email/Password Forms
+        function openEmailPasswordForm() {
+            authFormsContainer.innerHTML = `
+                <input type="email" id="emailInput" placeholder="Email" class="form-group-input" style="margin-bottom: 10px; width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:white; backdrop-filter: blur(5px);">
+                <input type="password" id="passwordInput" placeholder="Password" class="form-group-input" style="margin-bottom: 15px; width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:white; backdrop-filter: blur(5px);">
+                <button onclick="signInWithEmail()" class="liquid-btn" style="background: linear-gradient(145deg, rgba(255, 152, 0, 0.4), rgba(244, 67, 54, 0.4)); border: 1px solid rgba(255,152,0,0.3); margin-bottom: 10px; width:100%;">Sign In</button>
+                <button onclick="signUpWithEmail()" class="liquid-btn" style="background: linear-gradient(145deg, rgba(3, 169, 244, 0.4), rgba(33, 150, 243, 0.4)); border: 1px solid rgba(3,169,244,0.3); width:100%;">Create Account</button>
+                <p style="margin-top: 15px; font-size: 0.8em; cursor: pointer; text-align:center;" onclick="openAuthSelectionModal()">Back to options</p>
+            `;
+        }
+        window.openEmailPasswordForm = openEmailPasswordForm;
+
+        function signInWithEmail() {
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            signInWithEmailAndPassword(auth, email, password) // Modular Auth Call
+                .then(() => closeAuthSelectionModal())
+                .catch(error => alert("Login Failed: " + error.message));
+        }
+        window.signInWithEmail = signInWithEmail;
+
+        function signUpWithEmail() {
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            createUserWithEmailAndPassword(auth, email, password) // Modular Auth Call
+                .then(() => closeAuthSelectionModal())
+                .catch(error => alert("Sign Up Failed: " + error.message));
+        }
+        window.signUpWithEmail = signUpWithEmail;
+        
+        function openPhoneAuthForm() {
+            alert("Phone Auth is complex and requires reCAPTCHA setup. Please use Google or Email.");
+        }
+        window.openPhoneAuthForm = openPhoneAuthForm;
+
+        // Modals (Exposed to window for inline HTML calls)
+        function openAuthSelectionModal() { authSelectionModal.classList.add('active'); authFormsContainer.innerHTML = ''; }
+        window.openAuthSelectionModal = openAuthSelectionModal;
+        function closeAuthSelectionModal() { authSelectionModal.classList.remove('active'); }
+        window.closeAuthSelectionModal = closeAuthSelectionModal;
+        function openEditModal() { editModal.classList.add('active'); }
+        window.openEditModal = openEditModal;
+        function closeEditModal() { editModal.classList.remove('active'); }
+        window.closeEditModal = closeEditModal;
+        function openHireModal() { hireModal.classList.add('active'); }
+        window.openHireModal = openHireModal;
+        function closeHireModal() { hireModal.classList.remove('active'); }
+        window.closeHireModal = closeHireModal;
+
+        // Close modals on outside click
+        window.onclick = function(event) {
+            if (event.target === authSelectionModal) closeAuthSelectionModal();
+            if (event.target === editModal) closeEditModal();
+            if (event.target === hireModal) closeHireModal();
         }
 
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
 
-        // --- HIRE ME MODAL FUNCTIONS ---
-        function openHireModal() {
-            document.getElementById('hireModal').classList.add('active');
-        }
-
-        function closeHireModal() {
-            document.getElementById('hireModal').classList.remove('active');
-        }
-
-        // Close modal if clicked outside the glass box
-        document.getElementById('hireModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeHireModal();
+        // --- 5. USER STATE & DATABASE LOGIC (Modularized) ---
+        onAuthStateChanged(auth, async (user) => { // Modular Auth Listener
+            if (user) {
+                currentUser = user;
+                authBtn.innerHTML = `Edit Profile <i class="fas fa-pen" style="margin-left: 8px;"></i>`;
+                loadUserData(user.uid);
+            } else {
+                currentUser = null;
+                authBtn.innerHTML = `Login <i class="fas fa-lock" style="margin-left: 8px;"></i>`;
             }
         });
 
-        // 1. Get Data Helper
-        function getFormData() {
-            return {
-                name: document.getElementById("clientName").value,
-                email: document.getElementById("clientEmail").value,
-                service: document.getElementById("clientService").value,
-                contentType: document.getElementById("clientContentType").value,
-                budget: document.getElementById("clientBudget").value,
-                refLink: document.getElementById("clientRefLink").value || "None",
-                message: document.getElementById("clientMessage").value
-            };
+        async function loadUserData(uid) {
+            const userDocRef = doc(db, "users", uid); // Modular Firestore Reference
+            const docSnap = await getDoc(userDocRef); // Modular Firestore Read
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                updateUI(data);
+                fillEditForm(data);
+            } else {
+                const defaultData = {
+                    name: currentUser.displayName || "New User",
+                    title: "Artist/Editor",
+                    location: "Sri Lanka",
+                    photo: currentUser.photoURL || 'mama.jpg',
+                    about: uiAbout.innerHTML
+                };
+                await setDoc(userDocRef, defaultData); // Modular Firestore Write
+                updateUI(defaultData);
+                fillEditForm(defaultData);
+            }
         }
 
-        // 2. Validate Helper
+        function updateUI(data) {
+            if(data.name) uiName.textContent = data.name;
+            if(data.title) uiTitle.textContent = data.title;
+            if(data.location) uiLocation.textContent = data.location;
+            if(data.about) uiAbout.innerHTML = data.about;
+            if(data.photo && data.photo !== 'mama.jpg') profileImg.src = data.photo;
+        }
+
+        function fillEditForm(data) {
+            document.getElementById('editName').value = data.name || '';
+            document.getElementById('editTitle').value = data.title || '';
+            document.getElementById('editLocation').value = data.location || '';
+            document.getElementById('editAbout').value = data.about || '';
+        }
+
+        // --- 6. SAVE PROFILE CHANGES (Modularized) ---
+        editForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+            
+            const newData = {
+                name: document.getElementById('editName').value,
+                title: document.getElementById('editTitle').value,
+                location: document.getElementById('editLocation').value,
+                about: document.getElementById('editAbout').value,
+                photo: currentUser.photoURL || 'mama.jpg'
+            };
+
+            const userDocRef = doc(db, "users", currentUser.uid); // Modular Firestore Reference
+            
+            await setDoc(userDocRef, newData, { merge: true }) // Modular Firestore Write
+                .then(() => {
+                    updateUI(newData);
+                    closeEditModal();
+                    alert("Profile Updated Successfully!");
+                })
+                .catch((error) => {
+                    console.error("Error writing document: ", error);
+                    alert("Error updating profile.");
+                });
+        });
+
+        // --- 7. HIRE ME FORM LOGIC (Keep original logic, expose to window) ---
+        
         function validateForm(data) {
             if (!data.name || !data.email || !data.service || !data.contentType || !data.budget || !data.message) {
                 showNotification("Please fill in all required fields!");
@@ -1289,85 +736,126 @@
             return true;
         }
 
-        // 3. WHATSAPP LOGIC
         function sendToWhatsapp(e) {
             e.preventDefault();
-            const data = getFormData();
+            const data = {
+                name: document.getElementById("clientName").value,
+                email: document.getElementById("clientEmail").value,
+                service: document.getElementById("clientService").value,
+                contentType: document.getElementById("clientContentType").value,
+                budget: document.getElementById("clientBudget").value,
+                refLink: document.getElementById("clientRefLink").value || "None",
+                message: document.getElementById("clientMessage").value
+            };
             if (!validateForm(data)) return;
-
-            const whatsappMessage = 
-                "*HIRE ME REQUEST*" + "%0a" +
-                "-----------------------" + "%0a" +
-                "👤 *Name:* " + data.name + "%0a" +
-                "📧 *Email:* " + data.email + "%0a" +
-                "🎬 *Service:* " + data.service + "%0a" +
-                "📹 *Type:* " + data.contentType + "%0a" +
-                "💰 *Budget:* " + data.budget + "%0a" +
-                "🔗 *Ref Link:* " + data.refLink + "%0a" +
-                "📝 *Details:* " + data.message;
-
+            const whatsappMessage = "*HIRE ME REQUEST*%0a-----------------------%0a👤 *Name:* " + data.name + "%0a📧 *Email:* " + data.email + "%0a🎬 *Service:* " + data.service + "%0a📹 *Type:* " + data.contentType + "%0a💰 *Budget:* " + data.budget + "%0a🔗 *Ref Link:* " + data.refLink + "%0a📝 *Details:* " + data.message;
             const phoneNumber = "94702241785"; 
-            const url = "https://wa.me/" + phoneNumber + "?text=" + whatsappMessage;
-
-            window.open(url, '_blank').focus();
+            window.open("https://wa.me/" + phoneNumber + "?text=" + whatsappMessage, '_blank').focus();
             closeHireModal();
-            document.getElementById('hireForm').reset();
+            hireForm.reset();
         }
+        window.sendToWhatsapp = sendToWhatsapp;
 
-        // 4. DISCORD LOGIC (Copy to Clipboard)
         function sendToDiscord(e) {
             e.preventDefault();
-            const data = getFormData();
+            const data = {
+                name: document.getElementById("clientName").value,
+                email: document.getElementById("clientEmail").value,
+                service: document.getElementById("clientService").value,
+                contentType: document.getElementById("clientContentType").value,
+                budget: document.getElementById("clientBudget").value,
+                refLink: document.getElementById("clientRefLink").value || "None",
+                message: document.getElementById("clientMessage").value
+            };
             if (!validateForm(data)) return;
-
-            const discordMessage = 
-                "**HIRE ME REQUEST**\n" +
-                "-----------------------\n" +
-                "👤 **Name:** " + data.name + "\n" +
-                "📧 **Email:** " + data.email + "\n" +
-                "🎬 **Service:** " + data.service + "\n" +
-                "📹 **Type:** " + data.contentType + "\n" +
-                "💰 **Budget:** " + data.budget + "\n" +
-                "🔗 **Ref Link:** " + data.refLink + "\n" +
-                "📝 **Details:** " + data.message;
-
-            // Copy text to clipboard
+            const discordMessage = "**HIRE ME REQUEST**\n-----------------------\n👤 **Name:** " + data.name + "\n📧 **Email:** " + data.email + "\n🎬 **Service:** " + data.service + "\n📹 **Type:** " + data.contentType + "\n💰 **Budget:** " + data.budget + "\n🔗 **Ref Link:** " + data.refLink + "\n📝 **Details:** " + data.message;
             navigator.clipboard.writeText(discordMessage).then(() => {
                 showNotification("Message copied! Paste it in Discord.");
-                
-                // Open Discord Profile
                 setTimeout(() => {
                     window.open("https://discord.com/users/993191213022847086", '_blank');
                     closeHireModal();
-                    document.getElementById('hireForm').reset();
+                    hireForm.reset();
                 }, 1500);
             });
         }
+        window.sendToDiscord = sendToDiscord;
 
-        // Initialize everything
+        // --- 8. ORIGINAL VISUAL EFFECTS (KEEP) ---
+        const DISCORD_USER_ID = '993191213022847086';
+        const LANYARD_API = `https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`;
+        const bgImage = document.getElementById('bgImage');
+        const mouseCanvas = document.getElementById('bgMouseCanvas');
+        const mouseCtx = mouseCanvas.getContext('2d');
+        let mousePoints = [];
+        let mouseTarget = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        let viewportW = window.innerWidth;
+        let viewportH = window.innerHeight;
+
+        function onMouseMove(e) {
+            const x = (e.clientX / viewportW - 0.5) * 2;
+            const y = (e.clientY / viewportH - 0.5) * 2;
+            const translateX = -5 - x * 2.5;
+            const translateY = -5 - y * 2.5;
+            bgImage.style.transform = `translate3d(${translateX}%, ${translateY}%, 0) scale(1.05)`;
+            mouseTarget.x = e.clientX;
+            mouseTarget.y = e.clientY;
+        }
+
+        function updateDiscordStatus(status) {
+            const statusBadge = document.getElementById('discordStatusBadge');
+            const statusIcons = { online: 'fas fa-circle', idle: 'fas fa-moon', dnd: 'fas fa-minus-circle', offline: 'fas fa-circle' };
+            statusBadge.className = `discord-status ${status}`;
+            statusBadge.innerHTML = `<i class="${statusIcons[status] || statusIcons.offline}"></i>`;
+        }
+
+        async function fetchDiscordData() {
+            try {
+                const response = await fetch(LANYARD_API);
+                const data = await response.json();
+                if (data.success) {
+                    const user = data.data;
+                    updateDiscordStatus(user.discord_status);
+                    const statusElement = document.getElementById('discordStatus');
+                    let statusText = user.discord_status === 'online' ? 'Online' : user.discord_status === 'idle' ? 'Away' : user.discord_status === 'dnd' ? 'Do Not Disturb' : 'Offline';
+                    if (user.activities && user.activities.length > 0) {
+                        const activity = user.activities[0];
+                        if (activity.type === 0) statusText += ` | Playing ${activity.name}`;
+                        else if (activity.type === 2) statusText += ` | Listening to ${activity.details} by ${activity.state}`;
+                        else if (activity.type === 3) statusText += ` | Watching ${activity.name}`;
+                        else if (activity.type === 4 && activity.state) statusText += ` | ${activity.state}`;
+                    }
+                    statusElement.textContent = statusText;
+                } else {
+                    document.getElementById('discordStatus').textContent = 'Discord status unavailable';
+                    updateDiscordStatus('offline');
+                }
+            } catch (error) {
+                document.getElementById('discordStatus').textContent = 'Failed to load Discord status';
+                updateDiscordStatus('offline');
+            }
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => showNotification(`Copied: ${text}`)).catch(() => {
+                const textarea = document.createElement('textarea'); textarea.value = text; document.body.appendChild(textarea); textarea.select(); document.execCommand('copy'); document.body.removeChild(textarea); showNotification(`Copied: ${text}`);
+            });
+        }
+        window.copyText = copyText;
+        function showNotification(message) {
+            const notification = document.getElementById('notification'); notification.textContent = message; notification.classList.add('show'); setTimeout(() => notification.classList.remove('show'), 3000);
+        }
+
+        // Init Visuals
         document.addEventListener('DOMContentLoaded', () => {
             fetchDiscordData();
-            // Refresh Discord data every 30 seconds
             setInterval(fetchDiscordData, 30000);
-
-            // Detect desktop (fine pointer) to enable desktop-only effects
             const isDesktop = window.matchMedia('(pointer: fine)').matches && window.innerWidth >= 768;
 
-            // Initialize Liquid Glass menu interactions (desktop only for performance)
             if (isDesktop && window.gsap && window.Draggable) {
                 gsap.registerPlugin(Draggable);
                 Draggable.create('.liquid-glass', {
-                    type: 'x, y',
-                    bounds: window,
-                    inertia: true,
-                    onRelease: function () {
-                        gsap.to(this.target, {
-                            x: 0,
-                            y: 0,
-                            duration: 1.5,
-                            ease: 'elastic.out(1,0.3)'
-                        });
-                    }
+                    type: 'x, y', bounds: window, inertia: true,
+                    onRelease: function () { gsap.to(this.target, { x: 0, y: 0, duration: 1.5, ease: 'elastic.out(1,0.3)' }); }
                 });
             }
 
@@ -1376,112 +864,66 @@
                 liquidGlass.addEventListener('click', (e) => {
                     const isIcon = e.target.closest('.liquid-glass__icon');
                     const isExpanded = liquidGlass.classList.contains('is-expanded');
-                    // If user taps an icon while collapsed, expand instead of ignoring.
-                    // When expanded, allow icon taps to pass through to links without collapsing.
                     if (isIcon && isExpanded) return;
                     liquidGlass.classList.toggle('is-expanded');
                 });
             }
+
             if (isDesktop) {
                 window.addEventListener('mousemove', onMouseMove, { passive: true });
-                window.addEventListener('resize', () => {
-                    viewportW = window.innerWidth;
-                    viewportH = window.innerHeight;
-                    sizeMouseCanvas();
-                });
-
-                // Init mouse canvas network
-                sizeMouseCanvas();
-                initMousePoints();
-                animateMouseCanvas();
+                window.addEventListener('resize', () => { viewportW = window.innerWidth; viewportH = window.innerHeight; sizeMouseCanvas(); });
+                sizeMouseCanvas(); initMousePoints(); animateMouseCanvas();
             } else {
-                // Ensure effects are disabled on mobile
                 if (mouseCanvas) mouseCanvas.style.display = 'none';
                 if (bgImage) bgImage.style.transform = 'none';
             }
         });
 
-        function sizeMouseCanvas() {
-            mouseCanvas.width = window.innerWidth;
-            mouseCanvas.height = window.innerHeight;
-        }
-
+        function sizeMouseCanvas() { mouseCanvas.width = window.innerWidth; mouseCanvas.height = window.innerHeight; }
         function initMousePoints() {
             mousePoints = [];
-            const stepX = window.innerWidth / 20;
-            const stepY = window.innerHeight / 20;
+            const stepX = window.innerWidth / 20; const stepY = window.innerHeight / 20;
             for (let x = 0; x < window.innerWidth; x += stepX) {
                 for (let y = 0; y < window.innerHeight; y += stepY) {
-                    const px = x + Math.random() * stepX;
-                    const py = y + Math.random() * stepY;
-                    const point = { x: px, y: py, originX: px, originY: py, active: 0 };
-                    mousePoints.push(point);
+                    const px = x + Math.random() * stepX; const py = y + Math.random() * stepY;
+                    mousePoints.push({ x: px, y: py, originX: px, originY: py, active: 0 });
                 }
             }
-            // compute 5 closest for each point
             mousePoints.forEach((p1) => {
                 const closest = [];
                 mousePoints.forEach((p2) => {
                     if (p1 === p2) return;
-                    if (closest.length < 5) {
-                        closest.push(p2);
-                    } else {
-                        let maxIndex = 0;
-                        let maxDist = distanceSq(p1, closest[0]);
-                        for (let i = 1; i < closest.length; i++) {
-                            const d = distanceSq(p1, closest[i]);
-                            if (d > maxDist) { maxDist = d; maxIndex = i; }
-                        }
-                        const dToP2 = distanceSq(p1, p2);
-                        if (dToP2 < maxDist) {
-                            closest[maxIndex] = p2;
-                        }
+                    if (closest.length < 5) closest.push(p2);
+                    else {
+                        let maxIndex = 0; let maxDist = distanceSq(p1, closest[0]);
+                        for (let i = 1; i < closest.length; i++) { const d = distanceSq(p1, closest[i]); if (d > maxDist) { maxDist = d; maxIndex = i; } }
+                        const dToP2 = distanceSq(p1, p2); if (dToP2 < maxDist) closest[maxIndex] = p2;
                     }
                 });
-                p1.closest = closest;
-                p1.radius = 2 + Math.random() * 2;
+                p1.closest = closest; p1.radius = 2 + Math.random() * 2;
             });
         }
-
         function animateMouseCanvas() {
             mouseCtx.clearRect(0, 0, mouseCanvas.width, mouseCanvas.height);
             mousePoints.forEach((p) => {
                 const d = Math.abs(distanceSq(mouseTarget, p));
-                if (d < 4000) { p.active = 0.3; }
-                else if (d < 20000) { p.active = 0.1; }
-                else if (d < 40000) { p.active = 0.02; }
-                else { p.active = 0; }
-                drawMouseLines(p);
-                drawMouseCircle(p);
-                // gentle wandering
+                if (d < 4000) p.active = 0.3; else if (d < 20000) p.active = 0.1; else if (d < 40000) p.active = 0.02; else p.active = 0;
+                drawMouseLines(p); drawMouseCircle(p);
                 p.x += (p.originX - p.x) * 0.005 + (Math.random() - 0.5) * 0.2;
                 p.y += (p.originY - p.y) * 0.005 + (Math.random() - 0.5) * 0.2;
             });
             requestAnimationFrame(animateMouseCanvas);
         }
-
         function drawMouseLines(p) {
-            if (!p.active) return;
-            mouseCtx.beginPath();
-            p.closest.forEach((c) => {
-                mouseCtx.moveTo(p.x, p.y);
-                mouseCtx.lineTo(c.x, c.y);
-            });
-            mouseCtx.strokeStyle = `rgba(156,217,249,${p.active})`;
-            mouseCtx.stroke();
+            if (!p.active) return; mouseCtx.beginPath();
+            p.closest.forEach((c) => { mouseCtx.moveTo(p.x, p.y); mouseCtx.lineTo(c.x, c.y); });
+            mouseCtx.strokeStyle = `rgba(156,217,249,${p.active})`; mouseCtx.stroke();
         }
-
         function drawMouseCircle(p) {
-            if (!p.active) return;
-            mouseCtx.beginPath();
-            mouseCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            mouseCtx.fillStyle = `rgba(156,217,249,${Math.min(0.6, p.active*2)})`;
-            mouseCtx.fill();
+            if (!p.active) return; mouseCtx.beginPath(); mouseCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            mouseCtx.fillStyle = `rgba(156,217,249,${Math.min(0.6, p.active*2)})`; mouseCtx.fill();
         }
-
-        function distanceSq(a, b) {
-            return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
-        }
+        function distanceSq(a, b) { return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y); }
     </script>
 </body>
 </html>
