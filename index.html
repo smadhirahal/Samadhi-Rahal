@@ -39,7 +39,7 @@
             background-attachment: fixed;
         }
 
-        /* Background Image with cursor-follow parallax */
+        /* Background Image */
         .bg-image {
             position: fixed;
             top: 0;
@@ -56,7 +56,7 @@
             filter: brightness(0.85);
         }
 
-        /* Mouse network canvas (background effect) */
+        /* Mouse network canvas */
         #bgMouseCanvas {
             position: fixed;
             top: 0;
@@ -68,73 +68,7 @@
             display: block;
         }
 
-        /* Reduced Liquid Glass Background Animation */
-        .liquid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .liquid-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(20px);
-            animation: liquidFloat 15s ease-in-out infinite;
-            opacity: 0.2;
-        }
-
-        .blob1 {
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .blob2 {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(45deg, #a8e6cf, #dcedc1, #c7ecee);
-            top: 60%;
-            right: 15%;
-            animation-delay: 5s;
-        }
-
-        .blob3 {
-            width: 350px;
-            height: 350px;
-            background: linear-gradient(45deg, #ffd93d, #ff6b6b, #ff8a80);
-            bottom: 20%;
-            left: 30%;
-            animation-delay: 10s;
-        }
-
-        @keyframes liquidFloat {
-            0%, 100% { 
-                transform: translateY(0px) translateX(0px) scale(1) rotate(0deg);
-                border-radius: 60% 40% 30% 70%;
-            }
-            25% { 
-                transform: translateY(-30px) translateX(20px) scale(1.1) rotate(90deg);
-                border-radius: 30% 60% 70% 40%;
-            }
-            50% { 
-                transform: translateY(-10px) translateX(-20px) scale(0.9) rotate(180deg);
-                border-radius: 50% 60% 30% 60%;
-            }
-            75% { 
-                transform: translateY(20px) translateX(10px) scale(1.05) rotate(270deg);
-                border-radius: 40% 40% 60% 50%;
-            }
-        }
-
-        /* Main Container - Centered and fits screen */
+        /* Main Container */
         .main-container {
             display: flex;
             justify-content: center;
@@ -147,7 +81,7 @@
             min-height: 100vh;
         }
 
-        /* Wide Glass morphism container */
+        /* Glass Containers */
         .glass-container {
             position: relative;
             z-index: 2;
@@ -167,7 +101,6 @@
                 0 15px 35px rgba(0, 0, 0, 0.05);
         }
 
-        /* Liquid glass layers */
         .glass-container .lg-bend {
             backdrop-filter: blur(1.5px);
             border-radius: 30px;
@@ -343,6 +276,151 @@
             display: block;
         }
 
+        /* --- BUTTON STYLES --- */
+        .liquid-btn {
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(12px) saturate(1.2);
+            background: linear-gradient(145deg, 
+                rgba(255, 255, 255, 0.12), 
+                rgba(255, 255, 255, 0.04));
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .liquid-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(145deg, 
+                rgba(255, 255, 255, 0.2), 
+                rgba(255, 255, 255, 0.08));
+        }
+
+        /* Specific Hire Me Button Style (Liquid Glass) */
+        .hire-trigger {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+            animation: pulse-glass 3s infinite;
+        }
+
+        @keyframes pulse-glass {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        /* WHATSAPP & DISCORD BUTTON COLORS */
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3) !important;
+        }
+        .btn-discord {
+            background: linear-gradient(135deg, #5865F2 0%, #404EED 100%) !important;
+            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3) !important;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Updated: Ensure modal has scroll if content is long */
+        .modal-overlay .glass-container {
+            transform: scale(0.8) translateY(50px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 90vh; /* Prevent overflowing screen */
+            overflow-y: auto; /* Allow scroll inside modal */
+        }
+
+        .modal-overlay.active .glass-container {
+            transform: scale(1) translateY(0);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group select option {
+            background: #1e3c72; 
+            color: white;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .form-actions button {
+            flex: 1;
+            border-radius: 15px;
+            padding: 12px;
+            font-size: 0.95em;
+        }
+
         /* Contact Section */
         .contact-section {
             margin-top: 30px;
@@ -403,7 +481,7 @@
             border-radius: 15px;
             opacity: 0;
             transition: all 0.4s ease;
-            z-index: 1000;
+            z-index: 10000;
             backdrop-filter: blur(15px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             font-weight: 500;
@@ -458,7 +536,7 @@
             place-content: center;
         }
 
-        /* --- UPDATED ICON STYLES (Fixed Crop & Permanent Glass) --- */
+        /* --- ICONS: 3x3 Grid, Liquid Glass Effect, Pop & Glow --- */
         .liquid-glass__link {
             border-radius: var(--icon-border-radius);
             display: flex;
@@ -468,11 +546,7 @@
             width: var(--icon-size);
             z-index: 3;
             text-decoration: none;
-            
-            /* Bouncy transition */
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
-            
-            /* PERMANENT GLASS EFFECT */
             background: rgba(255, 255, 255, 0.1);
             box-shadow: 
                 0 4px 6px rgba(0, 0, 0, 0.1),
@@ -480,15 +554,12 @@
                 inset -1px -1px 2px rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(4px);
-
-            /* FIX: Allow icon to pop out without being cropped */
             overflow: visible; 
         }
 
         .liquid-glass__icon {
             width: 100%;
             height: 100%;
-            /* Bouncy transition for the icon */
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
         }
 
@@ -500,32 +571,24 @@
             pointer-events: auto;
         }
 
-        /* --- HOVER POP EFFECT --- */
+        /* HOVER POP EFFECT */
         .liquid-glass.is-expanded .liquid-glass__link:hover {
-            /* Lift up (Pop) */
             transform: translateY(-10px); 
-            
-            /* Brighter glass and stronger shadow on hover */
             background: rgba(255, 255, 255, 0.2); 
             box-shadow: 
                 0 15px 25px rgba(0, 0, 0, 0.3),
                 inset 1px 1px 2px rgba(255, 255, 255, 0.9),
                 inset -1px -1px 2px rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.5);
-            
             z-index: 10;
         }
 
-        /* --- ICON HOVER (Zoom Removed) --- */
         .liquid-glass.is-expanded .liquid-glass__link:hover .liquid-glass__icon {
-            /* Transform scale removed - stays same size */
             transform: scale(1); 
-            
-            /* Glow effect kept */
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
         }
 
-        .link-linkedin { /* Styles kept if needed */ }
+        .link-linkedin { }
         
         /* --- ADDITIONAL SECTIONS STYLES --- */
         .glass-container.glass-container--wide {
@@ -663,8 +726,6 @@
             .main-container:first-child { min-height: 100vh; padding-top: 40px; padding-bottom: 40px; }
             .bg-image { transform: none !important; transition: none !important; }
             #bgMouseCanvas { display: none !important; }
-            .liquid-bg { display: none !important; }
-            .liquid-blob { animation: none !important; opacity: 0.1; }
             .glass-container { padding: 27px 36px; max-width: 100%; }
             .glass-container.glass-container--wide { padding: 30px 25px; }
             .social-grid { gap: 16.2px; }
@@ -676,9 +737,11 @@
                 --glass-size-w: 14rem; --glass-size-h: 14rem; --glass-padding: 1.4rem; --menu-gap: 0.9rem; --icon-size: 3.25rem; --icon-padding: 0.65rem;
                 backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: 0 6px 14px rgba(0,0,0,0.12);
             }
-            .liquid-glass__menus { grid-template-columns: repeat(2, 1fr); }
+            .liquid-glass__menus { grid-template-columns: repeat(3, 1fr); }
             .liquid-glass.is-expanded { --glass-size-w: 24rem; --glass-size-h: 24rem; --glass-padding: 1.3rem; }
             .liquid-glass.is-expanded .liquid-glass__link { --icon-size: 4.5rem; --icon-padding: 0.85rem; }
+            
+            .form-actions { flex-direction: column; }
         }
 
         @media (max-width: 480px) {
@@ -701,14 +764,90 @@
 
     <canvas id="bgMouseCanvas"></canvas>
 
-    <div class="liquid-bg">
-        <div class="liquid-blob blob1"></div>
-        <div class="liquid-blob blob2"></div>
-        <div class="liquid-blob blob3"></div>
-    </div>
-
     <div class="notification" id="notification"></div>
     
+    <div id="hireModal" class="modal-overlay">
+        <div class="glass-container" style="max-width: 500px; padding: 40px 30px; text-align: left;">
+            <div class="lg-bend"></div>
+            <div class="lg-face"></div>
+            <div class="lg-edge"></div>
+            
+            <div class="glass-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 class="section-title" style="margin: 0; font-size: 1.8em; border: none;">Start a Project</h2>
+                    <i class="fas fa-times" onclick="closeHireModal()" style="cursor: pointer; font-size: 1.5em; opacity: 0.7;"></i>
+                </div>
+                
+                <form id="hireForm">
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" id="clientName" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="clientEmail" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Service Needed</label>
+                        <select id="clientService" required>
+                            <option value="" disabled selected>Select a service...</option>
+                            <option value="Video Editing">Video Editing</option>
+                            <option value="Digital Art">Digital Art</option>
+                            <option value="Motion Graphics">Motion Graphics</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type of Content</label>
+                        <select id="clientContentType" required>
+                            <option value="" disabled selected>Select type...</option>
+                            <option value="Short Form (Reels/TikTok)">Short Form (Reels/TikTok)</option>
+                            <option value="Long Form (YouTube)">Long Form (YouTube)</option>
+                            <option value="Stream Highlights">Stream Highlights</option>
+                            <option value="Commercial/Ad">Commercial/Ad</option>
+                            <option value="Gaming Montage">Gaming Montage</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Budget (USD/LKR)</label>
+                        <select id="clientBudget" required>
+                            <option value="" disabled selected>Select range...</option>
+                            <option value="Less than $50">Less than $50</option>
+                            <option value="$50 - $100">$50 - $100</option>
+                            <option value="$100 - $300">$100 - $300</option>
+                            <option value="$300+">$300+</option>
+                            <option value="Negotiable">Negotiable</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Style Reference Link (Optional)</label>
+                        <input type="url" id="clientRefLink" placeholder="https://youtube.com/..." style="font-family: 'Inter', sans-serif;">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Project Details</label>
+                        <textarea id="clientMessage" rows="4" placeholder="Tell me about your project..." required></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button onclick="sendToWhatsapp(event)" class="liquid-btn btn-whatsapp">
+                            WhatsApp <i class="fab fa-whatsapp" style="margin-left: 8px;"></i>
+                        </button>
+                        <button onclick="sendToDiscord(event)" class="liquid-btn btn-discord">
+                            Discord <i class="fab fa-discord" style="margin-left: 8px;"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="main-container">
         <div class="glass-container">
             <div class="lg-bend"></div>
@@ -781,6 +920,23 @@
             <div class="lg-face"></div>
             <div class="lg-edge"></div>
             <div class="glass-content">
+                <h2 class="section-title">Let's Work Together</h2>
+                <p class="section-text" style="margin-bottom: 25px;">
+                    Looking for a professional editor or artist for your next project? 
+                    Click below to start a conversation.
+                </p>
+                <button class="liquid-btn hire-trigger" onclick="openHireModal()" style="width: 200px; height: 55px; border-radius: 30px; font-size: 1.2em; margin: 0 auto;">
+                    Hire Me <i class="fas fa-briefcase" style="margin-left: 10px;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="glass-container glass-container--wide">
+            <div class="lg-bend"></div>
+            <div class="lg-face"></div>
+            <div class="lg-edge"></div>
+            <div class="glass-content">
                 <h2 class="section-title">About Me</h2>
                 <p class="section-text">
                     I’m Samadhi Rahal Samarasinghe — an editor, artist, and content-maker 
@@ -845,6 +1001,7 @@
             </div>
         </div>
     </div>
+
     <div class="main-container">
         <div class="glass-container glass-container--wide">
             <div class="lg-bend"></div>
@@ -1092,6 +1249,99 @@
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
+        }
+
+        // --- HIRE ME MODAL FUNCTIONS ---
+        function openHireModal() {
+            document.getElementById('hireModal').classList.add('active');
+        }
+
+        function closeHireModal() {
+            document.getElementById('hireModal').classList.remove('active');
+        }
+
+        // Close modal if clicked outside the glass box
+        document.getElementById('hireModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeHireModal();
+            }
+        });
+
+        // 1. Get Data Helper
+        function getFormData() {
+            return {
+                name: document.getElementById("clientName").value,
+                email: document.getElementById("clientEmail").value,
+                service: document.getElementById("clientService").value,
+                contentType: document.getElementById("clientContentType").value,
+                budget: document.getElementById("clientBudget").value,
+                refLink: document.getElementById("clientRefLink").value || "None",
+                message: document.getElementById("clientMessage").value
+            };
+        }
+
+        // 2. Validate Helper
+        function validateForm(data) {
+            if (!data.name || !data.email || !data.service || !data.contentType || !data.budget || !data.message) {
+                showNotification("Please fill in all required fields!");
+                return false;
+            }
+            return true;
+        }
+
+        // 3. WHATSAPP LOGIC
+        function sendToWhatsapp(e) {
+            e.preventDefault();
+            const data = getFormData();
+            if (!validateForm(data)) return;
+
+            const whatsappMessage = 
+                "*HIRE ME REQUEST*" + "%0a" +
+                "-----------------------" + "%0a" +
+                "👤 *Name:* " + data.name + "%0a" +
+                "📧 *Email:* " + data.email + "%0a" +
+                "🎬 *Service:* " + data.service + "%0a" +
+                "📹 *Type:* " + data.contentType + "%0a" +
+                "💰 *Budget:* " + data.budget + "%0a" +
+                "🔗 *Ref Link:* " + data.refLink + "%0a" +
+                "📝 *Details:* " + data.message;
+
+            const phoneNumber = "94702241785"; 
+            const url = "https://wa.me/" + phoneNumber + "?text=" + whatsappMessage;
+
+            window.open(url, '_blank').focus();
+            closeHireModal();
+            document.getElementById('hireForm').reset();
+        }
+
+        // 4. DISCORD LOGIC (Copy to Clipboard)
+        function sendToDiscord(e) {
+            e.preventDefault();
+            const data = getFormData();
+            if (!validateForm(data)) return;
+
+            const discordMessage = 
+                "**HIRE ME REQUEST**\n" +
+                "-----------------------\n" +
+                "👤 **Name:** " + data.name + "\n" +
+                "📧 **Email:** " + data.email + "\n" +
+                "🎬 **Service:** " + data.service + "\n" +
+                "📹 **Type:** " + data.contentType + "\n" +
+                "💰 **Budget:** " + data.budget + "\n" +
+                "🔗 **Ref Link:** " + data.refLink + "\n" +
+                "📝 **Details:** " + data.message;
+
+            // Copy text to clipboard
+            navigator.clipboard.writeText(discordMessage).then(() => {
+                showNotification("Message copied! Paste it in Discord.");
+                
+                // Open Discord Profile
+                setTimeout(() => {
+                    window.open("https://discord.com/users/993191213022847086", '_blank');
+                    closeHireModal();
+                    document.getElementById('hireForm').reset();
+                }, 1500);
+            });
         }
 
         // Initialize everything
