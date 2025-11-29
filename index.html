@@ -500,8 +500,6 @@
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         
-        // --- NOTE: Firebase Version updated to 10.7.1 (stable) ---
-        
         const firebaseConfig = {
           apiKey: "AIzaSyDNUS3pQ7ypCssNjXIo5TqaeFiuGdGQJec",
           authDomain: "samadhirahal.firebaseapp.com",
@@ -516,7 +514,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         
-        const GLOBAL_PROFILE_DOC_ID = "samadhi_rahal_admin"; // NEW: Fixed document ID for global site profile
+        const GLOBAL_PROFILE_DOC_ID = "samadhi_rahal_admin"; // Fixed document ID for global site profile
         
         const authBtn = document.getElementById('authBtn');
         const profileModal = document.getElementById('profileModal');
@@ -547,7 +545,6 @@
             if (currentUser) {
                 openProfileModal();
             } else {
-                // If not logged in, go straight to Google Sign-in
                 signInWithProvider('google');
             }
         });
@@ -630,38 +627,35 @@
 
         // --- AUTH STATE ---
         onAuthStateChanged(auth, async (user) => { 
+            // On any state change, load data only for the MODAL/EDIT functionality
             if (user) {
                 currentUser = user;
                 authBtn.innerHTML = `Profile <i class="fas fa-user" style="margin-left: 8px;"></i>`;
-                // console.log("ADMIN UID:", user.uid); // DEBUG: Get your UID here
-                loadProfileData(); // Load Global Profile
             } else {
                 currentUser = null;
                 authBtn.innerHTML = `Login <i class="fas fa-lock" style="margin-left: 8px;"></i>`;
-                loadProfileData(); // Load Global Profile
             }
+            loadProfileData(); // Always load data to populate the edit fields/modal view
         });
 
-        // NEW: Function to load the single global profile
         async function loadProfileData() {
             const profileDocRef = doc(db, "profiles", GLOBAL_PROFILE_DOC_ID);
             const docSnap = await getDoc(profileDocRef); 
 
-            // Hardcoded defaults based on user's site content
             const hardcodedDefaults = {
                 name: "Samadhi Rahal",
                 title: "Artist/Editor",
                 location: "Sri Lanka",
                 photo: "mama.jpg",
-                about: uiAbout.innerHTML
+                about: "I’m Samadhi Rahal Samarasinghe — an editor, artist, and content-maker who believes good work starts with respect for the craft..."
             };
 
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                updateUI(data);
+                updateUI(data); // Updates main UI with saved data
                 fillEditForm(data);
             } else {
-                // If the global profile doesn't exist, create it with hardcoded data
+                // If global profile doesn't exist, create it with hardcoded data and display it
                 await setDoc(profileDocRef, hardcodedDefaults);
                 updateUI(hardcodedDefaults);
                 fillEditForm(hardcodedDefaults);
@@ -669,7 +663,7 @@
         }
 
         function updateUI(data) {
-            // Main Page Update (Public View)
+            // Main Page Update (Public View - only updated when DB loads)
             if(data.name) uiName.textContent = data.name;
             if(data.title) uiTitle.textContent = data.title;
             if(data.location) uiLocation.textContent = data.location;
@@ -693,15 +687,11 @@
         // --- SAVE LOGIC ---
         editForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            // Check if user is logged in
             if (!currentUser) {
                 alert("Error: You must be logged in to save changes.");
                 return;
             }
-            // Add a check to see if the logged-in user is the admin (optional but safe)
-            // if (currentUser.uid !== ADMIN_UID) { alert("Error: Permission denied."); return; }
-
+            
             const originalBtnText = saveBtn.innerHTML;
             saveBtn.innerHTML = 'Saving... <i class="fas fa-spinner fa-spin"></i>';
             saveBtn.disabled = true;
@@ -719,7 +709,7 @@
                 photo: photoURL
             };
 
-            const userDocRef = doc(db, "profiles", GLOBAL_PROFILE_DOC_ID); // Write to the GLOBAL document
+            const userDocRef = doc(db, "profiles", GLOBAL_PROFILE_DOC_ID); 
             
             try {
                 await setDoc(userDocRef, newData, { merge: true });
@@ -729,7 +719,7 @@
                 toggleEditMode(false); // Go back to view mode
             } catch (error) {
                 console.error("Error writing document: ", error);
-                alert("Error saving: Check Firestore Rules! (" + error.message + ")");
+                alert("Error saving: Check Firestore Rules!");
             } finally {
                 saveBtn.innerHTML = originalBtnText;
                 saveBtn.disabled = false;
@@ -744,7 +734,7 @@
         function openProfileModal() { 
             profileModal.classList.add('active'); 
             toggleEditMode(false);
-            // Ensure data is loaded into the preview fields
+            // Ensure view fields are updated with current data
             viewProfileImg.src = profileImg.src;
             viewNameDisplay.textContent = uiName.textContent;
             viewTitleDisplay.textContent = uiTitle.textContent;
