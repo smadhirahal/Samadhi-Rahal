@@ -627,21 +627,22 @@
 
         // --- AUTH STATE ---
         onAuthStateChanged(auth, async (user) => { 
-            // On any state change, load data only for the MODAL/EDIT functionality
             if (user) {
                 currentUser = user;
                 authBtn.innerHTML = `Profile <i class="fas fa-user" style="margin-left: 8px;"></i>`;
+                loadProfileData(); 
             } else {
                 currentUser = null;
                 authBtn.innerHTML = `Login <i class="fas fa-lock" style="margin-left: 8px;"></i>`;
+                loadProfileData(); 
             }
-            loadProfileData(); // Always load data to populate the edit fields/modal view
         });
 
         async function loadProfileData() {
             const profileDocRef = doc(db, "profiles", GLOBAL_PROFILE_DOC_ID);
             const docSnap = await getDoc(profileDocRef); 
 
+            // Hardcoded defaults (used for initialization and as fallback)
             const hardcodedDefaults = {
                 name: "Samadhi Rahal",
                 title: "Artist/Editor",
@@ -650,20 +651,24 @@
                 about: "I’m Samadhi Rahal Samarasinghe — an editor, artist, and content-maker who believes good work starts with respect for the craft..."
             };
 
+            let dataToUse;
+
             if (docSnap.exists()) {
-                const data = docSnap.data();
-                updateUI(data); // Updates main UI with saved data
-                fillEditForm(data);
+                dataToUse = docSnap.data();
             } else {
-                // If global profile doesn't exist, create it with hardcoded data and display it
-                await setDoc(profileDocRef, hardcodedDefaults);
-                updateUI(hardcodedDefaults);
-                fillEditForm(hardcodedDefaults);
+                dataToUse = hardcodedDefaults;
+                await setDoc(profileDocRef, hardcodedDefaults); // Create initial document
             }
+
+            // ONLY UPDATE THE EDITING MODAL FIELDS AND VIEWS
+            // The main UI (uiName, uiTitle, profileImg) will be updated *only* on Save or initial load from the HTML defaults
+            updateUI(dataToUse);
+            fillEditForm(dataToUse);
         }
 
         function updateUI(data) {
-            // Main Page Update (Public View - only updated when DB loads)
+            // Main Page Update (Public View)
+            // THIS PART IS KEPT TO SHOW CHANGES AFTER SAVE. It will revert to HTML defaults on full refresh.
             if(data.name) uiName.textContent = data.name;
             if(data.title) uiTitle.textContent = data.title;
             if(data.location) uiLocation.textContent = data.location;
@@ -733,8 +738,7 @@
         window.closeAuthSelectionModal = closeAuthSelectionModal;
         function openProfileModal() { 
             profileModal.classList.add('active'); 
-            toggleEditMode(false);
-            // Ensure view fields are updated with current data
+            toggleEditMode(false); 
             viewProfileImg.src = profileImg.src;
             viewNameDisplay.textContent = uiName.textContent;
             viewTitleDisplay.textContent = uiTitle.textContent;
