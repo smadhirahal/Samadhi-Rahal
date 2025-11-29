@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samadhi Rahal - Artist & Editor</title>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -175,7 +174,7 @@
         .form-actions { display: flex; gap: 10px; margin-top: 20px; }
         .form-actions button { flex: 1; padding: 12px; font-size: 0.95em; }
 
-        .profile-edit-preview { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
+        .profile-edit-preview, .profile-view-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
         .preview-img {
             width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
             border: 3px solid rgba(255, 255, 255, 0.3); margin-bottom: 10px;
@@ -305,16 +304,35 @@
         </div>
     </div>
 
-    <div id="editModal" class="modal-overlay">
+    <div id="profileModal" class="modal-overlay">
         <div class="glass-container" style="max-width: 500px; padding: 40px 30px; text-align: left;">
             <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
             <div class="glass-content">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2 class="section-title" style="margin: 0; font-size: 1.8em; border: none;">Edit Profile</h2>
-                    <i class="fas fa-times" onclick="closeEditModal()" style="cursor: pointer; font-size: 1.5em; opacity: 0.7;"></i>
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                    <i class="fas fa-times" onclick="closeProfileModal()" style="cursor: pointer; font-size: 1.5em; opacity: 0.7;"></i>
                 </div>
-                
-                <form id="editForm">
+
+                <div id="profileViewMode">
+                    <div class="profile-view-header">
+                        <img src="mama.jpg" id="viewProfileImg" class="preview-img" style="width: 120px; height: 120px; border-width: 4px;">
+                        <h2 id="viewNameDisplay" class="name" style="font-size: 1.8em; margin-top: 10px;">Your Name</h2>
+                        <p id="viewTitleDisplay" class="title" style="font-size: 1em;">Your Title</p>
+                    </div>
+                    
+                    <div class="form-actions" style="flex-direction: column; gap: 15px;">
+                        <button onclick="toggleEditMode(true)" class="liquid-btn" style="width: 100%; padding: 15px; font-size: 1.1em;">
+                            Edit Profile <i class="fas fa-pen" style="margin-left: 10px;"></i>
+                        </button>
+                        
+                        <button onclick="logoutUser()" class="liquid-btn" style="background: linear-gradient(135deg, #FF512F 0%, #DD2476 100%); width: 100%; padding: 15px; font-size: 1.1em; margin-top: 20px;">
+                            Logout <i class="fas fa-sign-out-alt" style="margin-left: 10px;"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <form id="editForm" style="display: none;">
+                    <h2 class="section-title" style="margin: 0 0 20px 0; font-size: 1.5em; border: none; text-align: center;">Edit Details</h2>
+                    
                     <div class="profile-edit-preview">
                         <img src="mama.jpg" id="editProfilePreview" class="preview-img">
                         <input type="file" id="fileInput" accept="image/*" style="display: none;">
@@ -329,13 +347,8 @@
                     <div class="form-group"><label>About Me</label><textarea id="editAbout" rows="4" placeholder="Update your bio..."></textarea></div>
                     
                     <div class="form-actions">
-                        <button type="submit" id="saveBtn" class="liquid-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">Save Changes <i class="fas fa-save" style="margin-left: 8px;"></i></button>
-                    </div>
-                    
-                    <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                        <button type="button" onclick="logoutUser()" class="liquid-btn" style="background: linear-gradient(135deg, #FF512F 0%, #DD2476 100%); width: 100%;">
-                            Logout <i class="fas fa-sign-out-alt" style="margin-left: 8px;"></i>
-                        </button>
+                        <button type="submit" id="saveBtn" class="liquid-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">Save Changes</button>
+                        <button type="button" onclick="toggleEditMode(false)" class="liquid-btn" style="background: rgba(255,255,255,0.1);">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -496,8 +509,9 @@
         const db = getFirestore(app);
         
         const authBtn = document.getElementById('authBtn');
-        const editModal = document.getElementById('editModal');
+        const profileModal = document.getElementById('profileModal');
         const editForm = document.getElementById('editForm');
+        const profileViewMode = document.getElementById('profileViewMode');
         const authSelectionModal = document.getElementById('authSelectionModal');
         const hireModal = document.getElementById('hireModal');
         const hireForm = document.getElementById('hireForm');
@@ -508,6 +522,11 @@
         const uiLocation = document.querySelector('.location');
         const uiAbout = document.getElementById('aboutText');
         const profileImg = document.querySelector('.profile-avatar');
+        
+        // Modal Specific Elements
+        const viewProfileImg = document.getElementById('viewProfileImg');
+        const viewNameDisplay = document.getElementById('viewNameDisplay');
+        const viewTitleDisplay = document.getElementById('viewTitleDisplay');
         const editProfilePreview = document.getElementById('editProfilePreview');
         const fileInput = document.getElementById('fileInput');
 
@@ -516,21 +535,20 @@
 
         authBtn.addEventListener('click', () => {
             if (currentUser) {
-                openEditModal();
+                openProfileModal();
             } else {
                 openAuthSelectionModal();
             }
         });
         
-        // Handle File Selection (Compression Logic)
+        // Handle File Selection
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
-                // Compress heavily to ensure it fits in Firestore (< 1MB limit)
                 compressImage(file, 150, 150).then(base64 => {
                     selectedFileBase64 = base64;
                     editProfilePreview.src = base64;
-                }).catch(err => alert("Image failed to process. Try a smaller file."));
+                }).catch(err => alert("Image failed to process."));
             }
         });
 
@@ -545,23 +563,15 @@
                         const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
-                        // Resize logic
                         if (width > height) {
-                            if (width > maxWidth) {
-                                height *= maxWidth / width;
-                                width = maxWidth;
-                            }
+                            if (width > maxWidth) { height *= maxWidth / width; width = maxWidth; }
                         } else {
-                            if (height > maxHeight) {
-                                width *= maxHeight / height;
-                                height = maxHeight;
-                            }
+                            if (height > maxHeight) { width *= maxHeight / height; height = maxHeight; }
                         }
                         canvas.width = width;
                         canvas.height = height;
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
-                        // Low quality JPEG to save space
                         resolve(canvas.toDataURL('image/jpeg', 0.5)); 
                     };
                     img.onerror = (err) => reject(err);
@@ -582,9 +592,9 @@
         function logoutUser() {
             signOut(auth).then(() => {
                 currentUser = null;
-                closeEditModal();
+                closeProfileModal();
                 alert("Logged out successfully!");
-                // Reset UI defaults
+                // Reset UI
                 uiName.textContent = "Samadhi Rahal";
                 uiTitle.textContent = "Artist/Editor";
                 uiLocation.textContent = "Sri Lanka";
@@ -595,11 +605,23 @@
         }
         window.logoutUser = logoutUser;
 
+        // Toggle View/Edit
+        function toggleEditMode(isEdit) {
+            if (isEdit) {
+                profileViewMode.style.display = 'none';
+                editForm.style.display = 'block';
+            } else {
+                profileViewMode.style.display = 'block';
+                editForm.style.display = 'none';
+            }
+        }
+        window.toggleEditMode = toggleEditMode;
+
         // --- AUTH STATE ---
         onAuthStateChanged(auth, async (user) => { 
             if (user) {
                 currentUser = user;
-                authBtn.innerHTML = `Edit Profile <i class="fas fa-pen" style="margin-left: 8px;"></i>`;
+                authBtn.innerHTML = `Profile <i class="fas fa-user" style="margin-left: 8px;"></i>`;
                 loadUserData(user.uid);
             } else {
                 currentUser = null;
@@ -616,7 +638,6 @@
                 updateUI(data);
                 fillEditForm(data);
             } else {
-                // If new user, use Google Photo
                 const initialPhoto = currentUser.photoURL || 'mama.jpg';
                 const defaultData = {
                     name: currentUser.displayName || "New User",
@@ -632,11 +653,17 @@
         }
 
         function updateUI(data) {
+            // Main Page Update
             if(data.name) uiName.textContent = data.name;
             if(data.title) uiTitle.textContent = data.title;
             if(data.location) uiLocation.textContent = data.location;
             if(data.about) uiAbout.innerHTML = data.about;
             if(data.photo) profileImg.src = data.photo;
+
+            // Modal View Update
+            if(data.photo) viewProfileImg.src = data.photo;
+            if(data.name) viewNameDisplay.textContent = data.name;
+            if(data.title) viewTitleDisplay.textContent = data.title;
         }
 
         function fillEditForm(data) {
@@ -652,7 +679,6 @@
             e.preventDefault();
             if (!currentUser) return;
             
-            // Show loading state
             const originalBtnText = saveBtn.innerHTML;
             saveBtn.innerHTML = 'Saving... <i class="fas fa-spinner fa-spin"></i>';
             saveBtn.disabled = true;
@@ -675,9 +701,9 @@
             try {
                 await setDoc(userDocRef, newData, { merge: true });
                 updateUI(newData);
-                closeEditModal();
                 selectedFileBase64 = null;
                 alert("Profile Saved!");
+                toggleEditMode(false); // Go back to view mode
             } catch (error) {
                 console.error("Error writing document: ", error);
                 alert("Error saving. Check Firestore Rules!");
@@ -692,10 +718,13 @@
         window.openAuthSelectionModal = openAuthSelectionModal;
         function closeAuthSelectionModal() { authSelectionModal.classList.remove('active'); }
         window.closeAuthSelectionModal = closeAuthSelectionModal;
-        function openEditModal() { editModal.classList.add('active'); editProfilePreview.src = profileImg.src; }
-        window.openEditModal = openEditModal;
-        function closeEditModal() { editModal.classList.remove('active'); }
-        window.closeEditModal = closeEditModal;
+        function openProfileModal() { 
+            profileModal.classList.add('active'); 
+            toggleEditMode(false); // Ensure we start in View Mode
+        }
+        window.openProfileModal = openProfileModal;
+        function closeProfileModal() { profileModal.classList.remove('active'); }
+        window.closeProfileModal = closeProfileModal;
         function openHireModal() { hireModal.classList.add('active'); }
         window.openHireModal = openHireModal;
         function closeHireModal() { hireModal.classList.remove('active'); }
@@ -703,7 +732,7 @@
 
         window.onclick = function(event) {
             if (event.target === authSelectionModal) closeAuthSelectionModal();
-            if (event.target === editModal) closeEditModal();
+            if (event.target === profileModal) closeProfileModal();
             if (event.target === hireModal) closeHireModal();
         }
 
