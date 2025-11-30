@@ -494,21 +494,9 @@
                 </div>
 
                 <div id="workImages" class="portfolio-grid">
-                    <div class="portfolio-item"><img src="accets/1.jpg"></div>
-                    <div class="portfolio-item"><img src="accets/2.jpg"></div>
-                    <div class="portfolio-item"><img src="accets/3.jpg"></div>
-                    <div class="portfolio-item"><img src="accets/4.jpg"></div>
-                    <div class="portfolio-item"><img src="accets/5.jpg"></div>
-                    <div class="portfolio-item"><img src="accets/13.jpg"></div>
-                </div>
+                    </div>
 
                 <div id="workVideos" class="portfolio-grid" style="display: none;">
-                    <div class="portfolio-item">
-                        <video src="accets/V1.mp4" controls></video>
-                    </div>
-                    <div class="portfolio-item">
-                        <video src="accets/V2.mp4" controls></video>
-                    </div>
                     </div>
 
             </div>
@@ -568,7 +556,58 @@
         const reviewModal = document.getElementById('reviewModal');
         const reviewForm = document.getElementById('reviewForm');
         let currentUser = null;
-        let editingReviewId = null; // Track if we are editing
+        let editingReviewId = null;
+
+        // --- AUTOMATIC MEDIA LOADER CONFIG ---
+        const galleryConfig = {
+            imageCount: 50,  // It will check for 1 to 50
+            videoCount: 20,  // It will check for V1.mp4 to V20.mp4
+            vidExtension: ".mp4"
+        };
+
+        function loadMedia() {
+            const imgGrid = document.getElementById('workImages');
+            const vidGrid = document.getElementById('workVideos');
+            
+            // Clear existing manually
+            imgGrid.innerHTML = '';
+            vidGrid.innerHTML = '';
+
+            // Load Images (JPG or PNG)
+            for (let i = 1; i <= galleryConfig.imageCount; i++) {
+                const div = document.createElement('div');
+                div.className = 'portfolio-item';
+                
+                const img = document.createElement('img');
+                img.src = `accets/${i}.jpg`; // Try JPG first
+                
+                img.onerror = function() {
+                    if (this.src.includes('.jpg')) {
+                        // If JPG failed, try PNG
+                        this.src = `accets/${i}.png`;
+                    } else {
+                        // If PNG also failed, hide the container
+                        this.parentElement.style.display = 'none';
+                    }
+                };
+                
+                div.appendChild(img);
+                imgGrid.appendChild(div);
+            }
+
+            // Load Videos
+            for (let i = 1; i <= galleryConfig.videoCount; i++) {
+                const div = document.createElement('div');
+                div.className = 'portfolio-item';
+                const video = document.createElement('video');
+                video.src = `accets/V${i}${galleryConfig.vidExtension}`;
+                video.controls = true;
+                // If video fails to load, hide container
+                video.onerror = function() { this.parentElement.style.display = 'none'; };
+                div.appendChild(video);
+                vidGrid.appendChild(div);
+            }
+        }
 
         // --- SWITCH WORK TAB ---
         window.switchWorkTab = function(type) {
@@ -577,13 +616,13 @@
             const btns = document.querySelectorAll('.work-tab-btn');
 
             if (type === 'images') {
-                imgGrid.style.display = 'block'; // Using block for column-count
+                imgGrid.style.display = 'block'; // Block needed for column-count
                 vidGrid.style.display = 'none';
                 btns[0].classList.add('active');
                 btns[1].classList.remove('active');
             } else {
                 imgGrid.style.display = 'none';
-                vidGrid.style.display = 'block'; // Using block for column-count
+                vidGrid.style.display = 'block'; // Block needed for column-count
                 btns[0].classList.remove('active');
                 btns[1].classList.add('active');
             }
@@ -634,7 +673,7 @@
                 authBtn.innerHTML = `Login <i class="fas fa-lock" style="margin-left: 8px;"></i>`;
                 closeAuthModal();
                 showNotification("Logged out successfully!");
-                loadReviews(); // Reload to hide edit buttons
+                loadReviews();
             }).catch((error) => console.error("Logout Error:", error));
         }
         window.logoutUser = logoutUser;
@@ -647,7 +686,7 @@
                 currentUser = null;
                 authBtn.innerHTML = `Login <i class="fas fa-lock" style="margin-left: 8px;"></i>`;
             }
-            loadReviews(); // Refresh reviews to show/hide edit buttons
+            loadReviews();
         });
 
         // --- Modals ---
@@ -658,7 +697,7 @@
 
         function closeReviewModal() { 
             reviewModal.classList.remove('active'); 
-            editingReviewId = null; // Reset editing state
+            editingReviewId = null; 
             document.getElementById('reviewModalTitle').innerText = "Write a Review";
             document.getElementById('submitReviewBtn').innerText = "Submit Review";
             reviewForm.reset();
@@ -669,7 +708,7 @@
             if (currentUser) {
                 reviewModal.classList.add('active');
             } else {
-                openAuthModal(); // Open auth modal instead of alert
+                openAuthModal();
             }
         }
         window.openReviewModalCheck = openReviewModalCheck;
@@ -681,21 +720,15 @@
         }
 
         // --- REVIEWS LOGIC ---
-
-        // Submit (Add or Edit)
         reviewForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             if (!currentUser) return;
 
             const name = document.getElementById('reviewName').value;
             const text = document.getElementById('reviewText').value;
             const ratingInput = document.querySelector('input[name="rating"]:checked');
             
-            if (!ratingInput) {
-                alert("Please select a star rating.");
-                return;
-            }
+            if (!ratingInput) { alert("Please select a star rating."); return; }
             const rating = parseInt(ratingInput.value);
 
             const submitBtn = document.getElementById('submitReviewBtn');
@@ -705,27 +738,16 @@
 
             try {
                 if (editingReviewId) {
-                    // Update existing
                     const reviewRef = doc(db, "reviews", editingReviewId);
-                    await updateDoc(reviewRef, {
-                        name: name,
-                        text: text,
-                        rating: rating,
-                        // Don't update userId or timestamp usually, but you can if needed
-                    });
+                    await updateDoc(reviewRef, { name: name, text: text, rating: rating });
                     showNotification("Review Updated!");
                 } else {
-                    // Create new
                     await addDoc(collection(db, "reviews"), {
-                        name: name,
-                        text: text,
-                        rating: rating,
-                        userId: currentUser.uid,
-                        timestamp: serverTimestamp()
+                        name: name, text: text, rating: rating,
+                        userId: currentUser.uid, timestamp: serverTimestamp()
                     });
                     showNotification("Review Submitted! Thank you.");
                 }
-                
                 closeReviewModal();
                 loadReviews(); 
             } catch (error) {
@@ -737,105 +759,61 @@
             }
         });
 
-        // Delete Review
         window.deleteReview = async function(docId) {
             if(!confirm("Are you sure you want to delete this review?")) return;
             try {
                 await deleteDoc(doc(db, "reviews", docId));
                 showNotification("Review Deleted.");
                 loadReviews();
-            } catch(e) {
-                console.error(e);
-                alert("Failed to delete.");
-            }
+            } catch(e) { console.error(e); alert("Failed to delete."); }
         }
 
-        // Edit Review (Open Modal with Data)
         window.editReview = function(docId, name, text, rating) {
             editingReviewId = docId;
             document.getElementById('reviewName').value = name;
             document.getElementById('reviewText').value = text;
-            
-            // Check the correct radio button
             const radios = document.getElementsByName('rating');
-            for(let r of radios) {
-                if(parseInt(r.value) === parseInt(rating)) r.checked = true;
-            }
-
+            for(let r of radios) { if(parseInt(r.value) === parseInt(rating)) r.checked = true; }
             document.getElementById('reviewModalTitle').innerText = "Edit Your Review";
             document.getElementById('submitReviewBtn').innerText = "Update Review";
             reviewModal.classList.add('active');
         }
 
-        // Load Reviews
         async function loadReviews() {
             const reviewsGrid = document.getElementById('reviewsGrid');
-            
             try {
                 const q = query(collection(db, "reviews"), orderBy("timestamp", "desc"));
                 const querySnapshot = await getDocs(q);
-
                 if (querySnapshot.empty) {
                     reviewsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: rgba(255,255,255,0.6);">No reviews yet. Be the first!</p>';
                     return;
                 }
-
                 reviewsGrid.innerHTML = ''; 
-
                 let index = 0;
                 querySnapshot.forEach((docSnap) => {
                     const data = docSnap.data();
                     const docId = docSnap.id;
                     const imageIndex = index + 1; 
                     const imagePath = `accets/R${imageIndex}.png`; 
-                    
                     let starsHtml = '';
                     for(let i=1; i<=5; i++) {
                         if(i <= data.rating) starsHtml += '<i class="fas fa-star"></i>';
                         else starsHtml += '<i class="far fa-star"></i>';
                     }
-
-                    // Check if current user owns this review
                     let controlsHtml = '';
                     if (currentUser && data.userId === currentUser.uid) {
-                        // Pass data safely to edit function
-                        // We use replace to escape quotes in strings for the onclick attribute
                         const safeName = data.name.replace(/'/g, "\\'");
                         const safeText = data.text.replace(/'/g, "\\'");
-                        
-                        controlsHtml = `
-                            <div class="review-controls">
-                                <button class="review-btn edit" onclick="editReview('${docId}', '${safeName}', '${safeText}', ${data.rating})"><i class="fas fa-pen"></i></button>
-                                <button class="review-btn delete" onclick="deleteReview('${docId}')"><i class="fas fa-trash"></i></button>
-                            </div>
-                        `;
+                        controlsHtml = `<div class="review-controls"><button class="review-btn edit" onclick="editReview('${docId}', '${safeName}', '${safeText}', ${data.rating})"><i class="fas fa-pen"></i></button><button class="review-btn delete" onclick="deleteReview('${docId}')"><i class="fas fa-trash"></i></button></div>`;
                     }
-
-                    const cardHtml = `
-                        <div class="review-card">
-                            ${controlsHtml}
-                            <div class="review-header">
-                                <img src="${imagePath}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'" class="reviewer-img" alt="User">
-                                <div class="reviewer-info">
-                                    <h4>${data.name}</h4>
-                                    <div class="reviewer-stars">${starsHtml}</div>
-                                </div>
-                            </div>
-                            <div class="review-body">
-                                "${data.text}"
-                            </div>
-                        </div>
-                    `;
+                    const cardHtml = `<div class="review-card">${controlsHtml}<div class="review-header"><img src="${imagePath}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'" class="reviewer-img" alt="User"><div class="reviewer-info"><h4>${data.name}</h4><div class="reviewer-stars">${starsHtml}</div></div></div><div class="review-body">"${data.text}"</div></div>`;
                     reviewsGrid.innerHTML += cardHtml;
                     index++;
                 });
-
-            } catch (error) {
-                console.error("Error loading reviews:", error);
-            }
+            } catch (error) { console.error("Error loading reviews:", error); }
         }
 
-        // --- Visual Effects & Discord Status (Kept unchanged) ---
+        // --- Visual Effects ---
         const DISCORD_USER_ID = '993191213022847086';
         const LANYARD_API = `https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`;
         const bgImage = document.getElementById('bgImage');
@@ -892,7 +870,8 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchDiscordData();
-            loadReviews(); 
+            loadReviews();
+            loadMedia(); // Load Auto Media
             setInterval(fetchDiscordData, 30000);
             const isDesktop = window.matchMedia('(pointer: fine)').matches && window.innerWidth >= 768;
 
