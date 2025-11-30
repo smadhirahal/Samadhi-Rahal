@@ -130,6 +130,8 @@
 
         .btn-whatsapp { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3) !important; }
         .btn-discord { background: linear-gradient(135deg, #5865F2 0%, #404EED 100%) !important; box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3) !important; }
+        .btn-google { background: linear-gradient(135deg, #EA4335 0%, #B92B1B 100%) !important; box-shadow: 0 5px 15px rgba(234, 67, 53, 0.3) !important; }
+        .btn-logout { background: linear-gradient(135deg, #FF512F 0%, #DD2476 100%) !important; box-shadow: 0 5px 15px rgba(221, 36, 118, 0.3) !important; }
 
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -231,13 +233,20 @@
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
             backdrop-filter: blur(10px); border-radius: 20px; padding: 25px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1); position: relative;
         }
         .review-header { display: flex; align-items: center; margin-bottom: 15px; }
         .reviewer-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 2px solid rgba(255,255,255,0.3); background-color: rgba(0,0,0,0.2); }
         .reviewer-info h4 { margin: 0; font-family: 'Inter', sans-serif; font-size: 1.1em; color: white; }
         .reviewer-stars { color: #feca57; font-size: 0.9em; margin-top: 3px; }
         .review-body { font-family: 'Poppins', sans-serif; font-size: 0.95em; color: rgba(255, 255, 255, 0.8); line-height: 1.5; font-style: italic; }
+        
+        /* Review Controls (Edit/Delete) */
+        .review-controls { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; opacity: 0.8; }
+        .review-btn { background: rgba(255,255,255,0.1); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .review-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.1); }
+        .review-btn.delete:hover { background: #f04747; }
+        .review-btn.edit:hover { background: #667eea; }
 
         /* Star Rating in Form */
         .star-rating-input { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 5px; font-size: 1.5em; }
@@ -274,9 +283,35 @@
     <div class="notification" id="notification"></div>
 
     <div style="position: absolute; top: 20px; right: 20px; z-index: 100;">
-        <button id="authBtn" class="liquid-btn" style="padding: 10px 20px; border-radius: 20px; font-size: 14px;">
+        <button id="authBtn" onclick="openAuthModal()" class="liquid-btn" style="padding: 10px 20px; border-radius: 20px; font-size: 14px;">
             Login <i class="fas fa-lock" style="margin-left: 8px;"></i>
         </button>
+    </div>
+
+    <div id="authModal" class="modal-overlay">
+        <div class="glass-container" style="max-width: 400px; padding: 40px 30px; text-align: center;">
+            <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
+            <div class="glass-content">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                    <i class="fas fa-times" onclick="closeAuthModal()" style="cursor: pointer; font-size: 1.5em; opacity: 0.7;"></i>
+                </div>
+                <h2 id="authTitle" class="section-title" style="margin: 0 0 20px 0; font-size: 1.6em; border: none;">Account</h2>
+                
+                <div id="loggedOutContent">
+                    <p style="margin-bottom: 25px; color: rgba(255,255,255,0.8);">Connect with Google to write and manage your reviews.</p>
+                    <button onclick="signInWithGoogle()" class="liquid-btn btn-google" style="width: 100%; padding: 15px;">
+                        <i class="fab fa-google" style="margin-right: 10px;"></i> Connect with Google
+                    </button>
+                </div>
+
+                <div id="loggedInContent" style="display: none;">
+                    <p id="userEmailDisplay" style="margin-bottom: 25px; color: rgba(255,255,255,0.9); font-weight: 500;"></p>
+                    <button onclick="logoutUser()" class="liquid-btn btn-logout" style="width: 100%; padding: 15px;">
+                        Logout <i class="fas fa-sign-out-alt" style="margin-left: 10px;"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="hireModal" class="modal-overlay">
@@ -309,7 +344,7 @@
             <div class="lg-bend"></div><div class="lg-face"></div><div class="lg-edge"></div>
             <div class="glass-content">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2 class="section-title" style="margin: 0; font-size: 1.8em; border: none;">Write a Review</h2>
+                    <h2 class="section-title" id="reviewModalTitle" style="margin: 0; font-size: 1.8em; border: none;">Write a Review</h2>
                     <i class="fas fa-times" onclick="closeReviewModal()" style="cursor: pointer; font-size: 1.5em; opacity: 0.7;"></i>
                 </div>
                 <form id="reviewForm">
@@ -362,6 +397,9 @@
                             <a class="liquid-glass__link link-tiktok" href="https://www.tiktok.com/@samadhi_rahal" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path class="liquid-glass__icon" fill="#fff" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
                             <a class="liquid-glass__link link-facebook" href="https://www.facebook.com/SamadiRahal/" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path class="liquid-glass__icon" fill="#fff" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
                             <a class="liquid-glass__link link-discord" href="https://discordapp.com/users/993191213022847086" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path class="liquid-glass__icon" fill="#fff" d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></a>
+                            <a class="liquid-glass__link link-twitter" href="#" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path class="liquid-glass__icon" fill="#fff" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
+                            <a class="liquid-glass__link link-twitch" href="#" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path class="liquid-glass__icon" fill="#fff" d="M2.149 0l-1.612 4.119v16.736h4.662v3.845h3.821l3.683-3.845h6.355l5.372-5.37v-15.485h-22.28zm20.525 14.542l-2.305 2.305h-6.354l-3.684 3.845v-3.845h-4.661v-14.994h16.994v12.689zm-12.371-9.983h2.662v7.382h-2.662v-7.382zm7.675 0h2.662v7.382h-2.662v-7.382z"/></svg></a>
+                            <a class="liquid-glass__link link-behance" href="#" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path class="liquid-glass__icon" fill="#fff" d="M22 7h-5v2h5V7zm1.6 6.9c0-.9-.2-1.7-.5-2.3-.3-.6-.8-1.1-1.3-1.4-.5-.3-1.2-.5-1.9-.5-1.2 0-2.2.4-2.9 1.2-.7.8-1.1 1.9-1.1 3.2 0 1.3.4 2.3 1.1 3.2.7.8 1.7 1.2 2.9 1.2.7 0 1.4-.1 1.9-.4.5-.3 1-.7 1.3-1.3.3-.6.5-1.3.6-2.1h-2c0 .5-.2.9-.4 1.1-.3.3-.7.4-1.2.4-.6 0-1-.2-1.3-.6-.2-.4-.4-1-.4-1.8h5.3v-.9zm-3.4-1.2c.3.3.5.7.5 1.3h-2.7c0-.6.2-1 .4-1.3.3-.3.6-.4 1-.4.4-.1.7.1.8.4zM9 13.3c-.6 0-1.1.1-1.5.4-.4.3-.6.7-.6 1.2 0 .5.2.9.6 1.1.4.3.9.4 1.6.4h1.7V13.3H9zm.3-2c.6 0 1.1.2 1.4.5.3.3.5.7.5 1.2 0 .5-.2.8-.5 1.1-.3.2-.8.4-1.3.4h-1.8V11.3h1.7zm-4.7 9V7.1h4.7c1.1 0 2 .3 2.7.8.6.6 1 1.3 1 2.2 0 .5-.1 1-.4 1.4-.2.4-.6.8-1 1 .6.2 1 .6 1.3 1 .3.5.5 1 .5 1.6 0 1-.3 1.9-1 2.6-.7.7-1.7 1-3 1H4.6z"/></svg></a>
                         </div>
                     </div>
                 </div>
@@ -469,7 +507,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         
         const firebaseConfig = {
            apiKey: "AIzaSyDNUS3pQ7ypCssNjXIo5TqaeFiuGdGQJec",
@@ -486,33 +524,59 @@
         const db = getFirestore(app);
        
         const authBtn = document.getElementById('authBtn');
+        const authModal = document.getElementById('authModal');
         const hireModal = document.getElementById('hireModal');
         const reviewModal = document.getElementById('reviewModal');
         const reviewForm = document.getElementById('reviewForm');
         let currentUser = null;
+        let editingReviewId = null; // Track if we are editing
 
         // --- AUTH LOGIC ---
-        authBtn.addEventListener('click', () => {
+        function openAuthModal() {
+            authModal.classList.add('active');
+            updateAuthModalUI();
+        }
+        window.openAuthModal = openAuthModal;
+
+        function closeAuthModal() { authModal.classList.remove('active'); }
+        window.closeAuthModal = closeAuthModal;
+
+        function updateAuthModalUI() {
+            const loggedInContent = document.getElementById('loggedInContent');
+            const loggedOutContent = document.getElementById('loggedOutContent');
+            const authTitle = document.getElementById('authTitle');
+            const userEmailDisplay = document.getElementById('userEmailDisplay');
+
             if (currentUser) {
-                logoutUser();
+                authTitle.innerText = "Account";
+                loggedInContent.style.display = 'block';
+                loggedOutContent.style.display = 'none';
+                userEmailDisplay.innerText = `Logged in as: ${currentUser.displayName || currentUser.email}`;
             } else {
-                signInWithGoogle();
+                authTitle.innerText = "Login";
+                loggedInContent.style.display = 'none';
+                loggedOutContent.style.display = 'block';
             }
-        });
+        }
 
         function signInWithGoogle() {
             const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider).catch((error) => {
+            signInWithPopup(auth, provider).then(() => {
+                closeAuthModal();
+            }).catch((error) => {
                 alert("Login failed: " + error.message);
                 console.error(error);
             });
         }
+        window.signInWithGoogle = signInWithGoogle;
 
         function logoutUser() {
             signOut(auth).then(() => {
                 currentUser = null;
                 authBtn.innerHTML = `Login <i class="fas fa-lock" style="margin-left: 8px;"></i>`;
+                closeAuthModal();
                 showNotification("Logged out successfully!");
+                loadReviews(); // Reload to hide edit buttons
             }).catch((error) => console.error("Logout Error:", error));
         }
         window.logoutUser = logoutUser;
@@ -525,6 +589,7 @@
                 currentUser = null;
                 authBtn.innerHTML = `Login <i class="fas fa-lock" style="margin-left: 8px;"></i>`;
             }
+            loadReviews(); // Refresh reviews to show/hide edit buttons
         });
 
         // --- Modals ---
@@ -533,18 +598,20 @@
         function closeHireModal() { hireModal.classList.remove('active'); }
         window.closeHireModal = closeHireModal;
 
-        function closeReviewModal() { reviewModal.classList.remove('active'); }
+        function closeReviewModal() { 
+            reviewModal.classList.remove('active'); 
+            editingReviewId = null; // Reset editing state
+            document.getElementById('reviewModalTitle').innerText = "Write a Review";
+            document.getElementById('submitReviewBtn').innerText = "Submit Review";
+            reviewForm.reset();
+        }
         window.closeReviewModal = closeReviewModal;
 
-        // Open Review Modal - Checks Login First
         function openReviewModalCheck() {
             if (currentUser) {
-                // If logged in, open the form
                 reviewModal.classList.add('active');
             } else {
-                // If not logged in, trigger login
-                alert("Please login to write a review.");
-                signInWithGoogle();
+                openAuthModal(); // Open auth modal instead of alert
             }
         }
         window.openReviewModalCheck = openReviewModalCheck;
@@ -552,11 +619,12 @@
         window.onclick = function(event) {
             if (event.target === hireModal) closeHireModal();
             if (event.target === reviewModal) closeReviewModal();
+            if (event.target === authModal) closeAuthModal();
         }
 
         // --- REVIEWS LOGIC ---
 
-        // 1. Submit Review
+        // Submit (Add or Edit)
         reviewForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -574,24 +642,36 @@
 
             const submitBtn = document.getElementById('submitReviewBtn');
             const originalText = submitBtn.innerText;
-            submitBtn.innerText = "Submitting...";
+            submitBtn.innerText = editingReviewId ? "Updating..." : "Submitting...";
             submitBtn.disabled = true;
 
             try {
-                await addDoc(collection(db, "reviews"), {
-                    name: name,
-                    text: text,
-                    rating: rating,
-                    userId: currentUser.uid,
-                    timestamp: serverTimestamp()
-                });
+                if (editingReviewId) {
+                    // Update existing
+                    const reviewRef = doc(db, "reviews", editingReviewId);
+                    await updateDoc(reviewRef, {
+                        name: name,
+                        text: text,
+                        rating: rating,
+                        // Don't update userId or timestamp usually, but you can if needed
+                    });
+                    showNotification("Review Updated!");
+                } else {
+                    // Create new
+                    await addDoc(collection(db, "reviews"), {
+                        name: name,
+                        text: text,
+                        rating: rating,
+                        userId: currentUser.uid,
+                        timestamp: serverTimestamp()
+                    });
+                    showNotification("Review Submitted! Thank you.");
+                }
                 
-                showNotification("Review Submitted! Thank you.");
                 closeReviewModal();
-                reviewForm.reset();
-                loadReviews(); // Refresh the list
+                loadReviews(); 
             } catch (error) {
-                console.error("Error adding review: ", error);
+                console.error("Error saving review: ", error);
                 alert("Error submitting review.");
             } finally {
                 submitBtn.innerText = originalText;
@@ -599,12 +679,41 @@
             }
         });
 
-        // 2. Load Reviews
+        // Delete Review
+        window.deleteReview = async function(docId) {
+            if(!confirm("Are you sure you want to delete this review?")) return;
+            try {
+                await deleteDoc(doc(db, "reviews", docId));
+                showNotification("Review Deleted.");
+                loadReviews();
+            } catch(e) {
+                console.error(e);
+                alert("Failed to delete.");
+            }
+        }
+
+        // Edit Review (Open Modal with Data)
+        window.editReview = function(docId, name, text, rating) {
+            editingReviewId = docId;
+            document.getElementById('reviewName').value = name;
+            document.getElementById('reviewText').value = text;
+            
+            // Check the correct radio button
+            const radios = document.getElementsByName('rating');
+            for(let r of radios) {
+                if(parseInt(r.value) === parseInt(rating)) r.checked = true;
+            }
+
+            document.getElementById('reviewModalTitle').innerText = "Edit Your Review";
+            document.getElementById('submitReviewBtn').innerText = "Update Review";
+            reviewModal.classList.add('active');
+        }
+
+        // Load Reviews
         async function loadReviews() {
             const reviewsGrid = document.getElementById('reviewsGrid');
             
             try {
-                // Query reviews ordered by time (newest first)
                 const q = query(collection(db, "reviews"), orderBy("timestamp", "desc"));
                 const querySnapshot = await getDocs(q);
 
@@ -613,27 +722,40 @@
                     return;
                 }
 
-                reviewsGrid.innerHTML = ''; // Clear loading text
+                reviewsGrid.innerHTML = ''; 
 
                 let index = 0;
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    
-                    // --- IMAGE LOGIC (Requested Manual Mapping) ---
-                    // This sets the image path to "accets/R1.png", "accets/R2.png" etc. based on the loop index.
-                    // You must manually add these files to your folder.
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const docId = docSnap.id;
                     const imageIndex = index + 1; 
                     const imagePath = `accets/R${imageIndex}.png`; 
                     
-                    // Generate Star Icons
                     let starsHtml = '';
                     for(let i=1; i<=5; i++) {
                         if(i <= data.rating) starsHtml += '<i class="fas fa-star"></i>';
                         else starsHtml += '<i class="far fa-star"></i>';
                     }
 
+                    // Check if current user owns this review
+                    let controlsHtml = '';
+                    if (currentUser && data.userId === currentUser.uid) {
+                        // Pass data safely to edit function
+                        // We use replace to escape quotes in strings for the onclick attribute
+                        const safeName = data.name.replace(/'/g, "\\'");
+                        const safeText = data.text.replace(/'/g, "\\'");
+                        
+                        controlsHtml = `
+                            <div class="review-controls">
+                                <button class="review-btn edit" onclick="editReview('${docId}', '${safeName}', '${safeText}', ${data.rating})"><i class="fas fa-pen"></i></button>
+                                <button class="review-btn delete" onclick="deleteReview('${docId}')"><i class="fas fa-trash"></i></button>
+                            </div>
+                        `;
+                    }
+
                     const cardHtml = `
                         <div class="review-card">
+                            ${controlsHtml}
                             <div class="review-header">
                                 <img src="${imagePath}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'" class="reviewer-img" alt="User">
                                 <div class="reviewer-info">
@@ -652,7 +774,6 @@
 
             } catch (error) {
                 console.error("Error loading reviews:", error);
-                reviewsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: rgba(255,255,255,0.6);">Failed to load reviews.</p>';
             }
         }
 
@@ -713,7 +834,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchDiscordData();
-            loadReviews(); // Initialize Reviews Loading
+            loadReviews(); 
             setInterval(fetchDiscordData, 30000);
             const isDesktop = window.matchMedia('(pointer: fine)').matches && window.innerWidth >= 768;
 
