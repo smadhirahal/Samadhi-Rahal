@@ -358,8 +358,8 @@
     <footer>
         <div class="container">
             <div class="footer-info">
-                <p><i class="fas fa-envelope"></i> <a href="mailto:samadhirahal@gmail.com">samadhirahal@gmail.com</a></p>
-                <p style="margin-top:10px;"><i class="fas fa-phone"></i> <a href="tel:+947XXXXXXXX">+94 7X XXX XXXX</a></p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:rahalbro2007@gmail.com">rahalbro2007@gmail.com</a></p>
+                <p style="margin-top:10px;"><i class="fas fa-phone"></i> <a href="tel:+94702241785">+94 70 224 1785</a></p>
             </div>
 
             <div class="socials">
@@ -474,21 +474,18 @@
         };
         window.closeModal = (id) => document.getElementById(id).classList.remove('active');
 
-        // *** CHANGE THIS PHONE NUMBER ***
-        const YOUR_PHONE_NUMBER = "94702241785"; // e.g. 94771234567
+        // *** UPDATED PHONE NUMBER ***
+        const YOUR_PHONE_NUMBER = "94702241785"; 
 
         window.sendWhatsapp = () => {
             const plan = document.getElementById('planName').value;
             const email = document.getElementById('clientEmail').value;
             const details = document.getElementById('clientDetails').value;
 
-            // Construct the message
             const message = `Hello Samadhi! 👋\nI'm interested in: *${plan}*\n\nMy Email: ${email}\nProject Details: ${details}\n\nLet's discuss!`;
 
-            // Create WhatsApp Link
-            const url = `https://wa.me/${+94702241785}?text=${encodeURIComponent(message)}`;
+            const url = `https://wa.me/${YOUR_PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
             
-            // Open in new tab
             window.open(url, '_blank');
             closeModal('hireModal');
         };
@@ -511,5 +508,3 @@
     </script>
 </body>
 </html>
-
-
