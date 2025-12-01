@@ -11,9 +11,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
 
         :root {
-            --bg-dark: #020617;       
+            --bg-dark: #020617;        
             --card-bg: rgba(15, 23, 42, 0.6); 
-            --primary: #0061ff;       
+            --primary: #0061ff;        
             --secondary: #60efff;    
             --gradient-main: linear-gradient(135deg, #0061ff 0%, #60efff 100%);
             --gradient-text: linear-gradient(to right, #60efff, #0061ff);
@@ -23,6 +23,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; } /* Added for smooth scrolling */
 
         body {
             font-family: 'Inter', sans-serif;
@@ -62,19 +63,92 @@
         /* --- UTILS --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         
-        /* --- HEADER --- */
+        /* --- HEADER & NAVIGATION (NEW) --- */
         header {
-            padding: 20px 0;
+            padding: 15px 0;
             position: sticky; top: 0; z-index: 1000;
             background: rgba(2, 6, 23, 0.85);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
         .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        
         .logo { 
             font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.6rem; 
             background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             text-decoration: none; letter-spacing: -0.5px;
+        }
+
+        /* Desktop Nav */
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-link:hover { color: var(--text-white); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px;
+            background: var(--secondary); transition: 0.3s;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        .btn-nav-cta {
+            padding: 8px 20px;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
+        .btn-nav-cta:hover {
+            background: var(--gradient-main);
+            color: #000;
+            border-color: transparent;
+        }
+
+        /* Mobile Menu Button */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                top: 100%; left: 0;
+                width: 100%;
+                background: rgba(2, 6, 23, 0.95);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                padding: 20px 0;
+                gap: 20px;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                transform: translateY(-20px);
+                opacity: 0;
+                pointer-events: none;
+                transition: 0.3s ease;
+            }
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+            .menu-toggle { display: block; }
         }
 
         /* --- HERO --- */
@@ -95,7 +169,7 @@
         }
 
         /* --- GALLERY STYLES --- */
-        .section-title { text-align: center; font-family: 'Outfit'; font-size: 2.5rem; margin-bottom: 40px; color: white; }
+        .section-title { text-align: center; font-family: 'Outfit'; font-size: 2.5rem; margin-bottom: 40px; color: white; padding-top: 60px; }
         .section-title span { color: var(--secondary); }
 
         .tabs-container {
@@ -247,11 +321,22 @@
     <header>
         <div class="container nav-content">
             <a href="#" class="logo">Samadhi Rahal</a>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="#hero" class="nav-link" onclick="toggleMenu()">Home</a>
+                <a href="#work" class="nav-link" onclick="toggleMenu()">My Work</a>
+                <a href="#reviews" class="nav-link" onclick="toggleMenu()">Reviews</a>
+                <a href="#pricing" class="btn-nav-cta" onclick="toggleMenu()">Packages</a>
+            </nav>
+
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </header>
 
     <div class="container">
-        <section class="hero reveal active">
+        <section id="hero" class="hero reveal active">
             <div class="profile-wrapper">
                 <img src="accets/mama.jpg" class="profile-img" alt="Profile">
             </div>
@@ -260,7 +345,7 @@
             <button onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})" class="btn-main">See Packages</button>
         </section>
 
-        <section class="reveal">
+        <section id="work" class="reveal">
             <h2 class="section-title">My <span>Work</span></h2>
             
             <div class="tabs-container">
@@ -281,7 +366,7 @@
             </div>
         </section>
 
-        <section class="reveal">
+        <section id="reviews" class="reveal">
             <h2 class="section-title">Client <span>Feedback</span></h2>
             <div class="reviews-grid">
                 <div class="review-card">
@@ -472,6 +557,12 @@
             fillTrack('row3', row3Items);
         };
 
+        // --- NEW MENU LOGIC ---
+        function toggleMenu() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('active');
+        }
+
         // --- WHATSAPP LOGIC ---
         window.openHireModal = (plan) => {
             document.getElementById('planName').value = plan + " Offer";
@@ -513,4 +604,3 @@
     </script>
 </body>
 </html>
-
