@@ -228,7 +228,7 @@
 
     <header>
         <div class="container nav-content">
-            <a href="#" class="logo">ONE FOR EDITS</a>
+            <a href="#" class="logo">Samadhi Rahal</a>
         </div>
     </header>
 
@@ -246,9 +246,8 @@
             <h2 class="section-title">My <span>Work</span></h2>
             
             <div class="tabs-container">
-                <button class="tab-btn active" onclick="updateGallery('all', this)">All</button>
+                <button class="tab-btn active" onclick="updateGallery('video', this)">Videos</button>
                 <button class="tab-btn" onclick="updateGallery('image', this)">Images</button>
-                <button class="tab-btn" onclick="updateGallery('video', this)">Videos</button>
             </div>
 
             <div class="gallery-wrapper">
@@ -358,8 +357,6 @@
 
     <script>
         // --- MANUAL LIST ---
-        // Methana oyage file names manual vidihata type karanna.
-        // Auto detect logic ain kala.
         const allItems = [
             { type: 'image', src: 'accets/1.jpg' }, 
             { type: 'image', src: 'accets/2.jpg' },
@@ -452,7 +449,8 @@
 
         // --- INIT ---
         document.addEventListener('DOMContentLoaded', () => {
-            updateGallery('all', document.querySelector('.tab-btn'));
+            // Load 'video' by default
+            updateGallery('video', document.querySelector('.tab-btn'));
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
