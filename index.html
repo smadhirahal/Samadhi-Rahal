@@ -50,7 +50,6 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* --- AUTO SCROLL ANIMATIONS --- */
-        /* Speeds adjusted for smoother look with varied sizes */
         @keyframes scrollLeft {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -95,7 +94,7 @@
             background: var(--gradient-main); color: #000; border: none; font-family: 'Outfit'; transition: 0.3s; cursor: pointer;
         }
 
-        /* --- NEW GALLERY STYLES (VARIABLE SIZES & FRAMES) --- */
+        /* --- GALLERY STYLES --- */
         .section-title { text-align: center; font-family: 'Outfit'; font-size: 2.5rem; margin-bottom: 40px; color: white; }
         .section-title span { color: var(--secondary); }
 
@@ -114,7 +113,7 @@
         .gallery-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 25px; /* Spacing between rows */
+            gap: 25px; 
             margin-bottom: 100px;
             overflow: hidden;
         }
@@ -122,42 +121,33 @@
         .scroll-row {
             position: relative;
             width: 100%;
-            height: 240px; /* Fixed height for the rows. Items adapt to this height. */
+            height: 240px; 
             display: flex;
             overflow: hidden;
-            /* Fades edges slightly for smoother look */
             mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
         }
 
         .scroll-track {
             display: flex;
-            gap: 20px; /* Spacing between items in a row */
+            gap: 20px; 
             height: 100%;
             width: max-content;
         }
         
-        /* Slower animation speed to appreciate different sizes */
-        .track-left { animation: scrollLeft 60s linear infinite; }
-        .track-right { animation: scrollRight 60s linear infinite; }
-        .scroll-row:hover .scroll-track { animation-play-state: paused; } /* Pause on hover */
+        .track-left { animation: scrollLeft 80s linear infinite; }
+        .track-right { animation: scrollRight 80s linear infinite; }
+        .scroll-row:hover .scroll-track { animation-play-state: paused; }
 
-        /* ITEM STYLING FOR VARIABLE SIZES & FRAMING */
         .gallery-item {
-            /* Removed fixed width so it adapts to content aspect ratio */
-            height: 100%; /* Fill the row height */
-            width: auto;  /* Let width define itself */
-            
-            /* Frame Styling */
+            height: 100%; 
+            width: auto;  
             border-radius: 12px;
-            background: #0a0a0a; /* Slightly lighter black for frame bg */
-            border: 1px solid rgba(255,255,255,0.15); /* More visible border frame */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Depth shadow */
-            
+            background: #0a0a0a; 
+            border: 1px solid rgba(255,255,255,0.15); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
             flex-shrink: 0;
             overflow: hidden;
             transition: all 0.3s ease;
-            
-            /* Centering content */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -169,18 +159,14 @@
             box-shadow: 0 8px 25px rgba(96, 239, 255, 0.2);
         }
 
-        /* Ensure images/videos fit without cropping */
         .gallery-item img, .gallery-item video {
-            height: 100%; /* Force height to match container */
-            width: auto;  /* Maintain aspect ratio */
-            object-fit: contain; /* CRITICAL: Prevents cropping */
+            height: 100%; 
+            width: auto;  
+            object-fit: contain; 
             display: block;
         }
         
-        /* Optional: Specific styling for videos to ensure controls are usable if needed */
-        .gallery-item video {
-            background: #000;
-        }
+        .gallery-item video { background: #000; }
 
         /* --- REVIEWS --- */
         .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 100px; justify-content: center; }
@@ -188,8 +174,11 @@
             background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);
             padding: 30px; border-radius: var(--radius); backdrop-filter: blur(10px); transition: 0.3s;
         }
+        .review-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
         .client-avatar { width: 50px; height: 50px; border-radius: 50%; background: #333; border: 2px solid var(--secondary); overflow: hidden; }
         .client-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .client-info h4 { font-family: 'Outfit'; color: white; font-size: 1.1rem; margin-bottom:0; }
+        .client-info span { font-size: 0.85rem; color: var(--text-gray); }
         .stars { color: #FFD700; margin-bottom: 10px; }
         .review-text { color: var(--text-gray); font-style: italic; }
 
@@ -205,7 +194,10 @@
             background: var(--gradient-main); color: #000; padding: 6px 20px;
             border-radius: 20px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase;
         }
+        .price h3 { font-size: 1.5rem; color: white; margin-bottom: 5px; }
         .price .amount { font-size: 2.5rem; font-weight: 800; font-family: 'Outfit'; color: var(--secondary); }
+        .price .meta { font-size: 1rem; color: var(--secondary); margin-top: 5px; }
+        .features { list-style: none; margin: 30px 0; }
         .features li { color: var(--text-gray); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
         .features li i { color: var(--secondary); }
         .btn-card { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; background: rgba(255,255,255,0.1); color: white; transition: 0.3s; }
@@ -220,7 +212,7 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; }
             .pricing-card.popular { transform: scale(1); }
-            .scroll-row { height: 180px; } /* Smaller row height on mobile */
+            .scroll-row { height: 180px; } 
         }
 
         /* --- MODALS --- */
@@ -263,11 +255,9 @@
                 <div class="scroll-row">
                     <div class="scroll-track track-left" id="row1"></div>
                 </div>
-                
                 <div class="scroll-row">
                     <div class="scroll-track track-right" id="row2"></div>
                 </div>
-
                 <div class="scroll-row">
                     <div class="scroll-track track-left" id="row3"></div>
                 </div>
@@ -287,7 +277,7 @@
                 </div>
                 <div class="review-card">
                     <div class="review-header">
-                        <div class="client-avatar"><img src="accets/R2.jpg" alt="TrueCraft"></div>
+                        <div class="client-avatar"><img src="accets/R2.jpg" alt="PradMaz"></div>
                         <div class="client-info"><h4>PradMaz</h4><span>Poland</span></div>
                     </div>
                     <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
@@ -295,7 +285,7 @@
                 </div>
                 <div class="review-card">
                     <div class="review-header">
-                        <div class="client-avatar"><img src="accets/R1.png" alt="TrueCraft"></div>
+                        <div class="client-avatar"><img src="accets/R1.png" alt="Other"></div>
                         <div class="client-info"><h4>mukuth ne</h4><span>urkasithaner</span></div>
                     </div>
                     <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
@@ -367,38 +357,34 @@
     </div>
 
     <script>
-        // --- DATA UPDATED WITH MIXED EXTENSIONS ---
+        // --- MANUAL LIST ---
+        // Methana oyage file names manual vidihata type karanna.
+        // Auto detect logic ain kala.
         const allItems = [
-            // මෙතනට ඔයාගේ PNG සහ JPG ෆයිල් වල නම් දෙන්න.
             { type: 'image', src: 'accets/1.jpg' }, 
-            { type: 'image', src: 'accets/2.png' },
+            { type: 'image', src: 'accets/2.jpg' },
             { type: 'image', src: 'accets/3.jpg' },
             { type: 'image', src: 'accets/4.jpg' }, 
-            { type: 'image', src: 'accets/5.png' },
-            { type: 'image', src: 'accets/6.jpg' },
-            { type: 'image', src: 'accets/7.jpg' }, 
-            { type: 'image', src: 'accets/8.png' },
+            { type: 'image', src: 'accets/5.jpg' },
+            { type: 'image', src: 'accets/6.png' },
+            { type: 'image', src: 'accets/7.png' }, 
+            { type: 'image', src: 'accets/8.jpg' },
             { type: 'image', src: 'accets/9.jpg' },
             { type: 'image', src: 'accets/10.jpg' }, 
-            { type: 'image', src: 'accets/11.png' },
+            { type: 'image', src: 'accets/11.jpg' },
             { type: 'image', src: 'accets/12.jpg' },
             { type: 'image', src: 'accets/13.jpg' }, 
             { type: 'image', src: 'accets/14.png' },
-            { type: 'image', src: 'accets/15.jpg' },
-            { type: 'image', src: 'accets/16.jpg' }, 
+            { type: 'image', src: 'accets/15.png' },
+            { type: 'image', src: 'accets/16.png' }, 
             { type: 'image', src: 'accets/17.png' },
-            { type: 'image', src: 'accets/18.jpg' },
-            { type: 'image', src: 'accets/19.jpg' }, 
+            { type: 'image', src: 'accets/18.png' },
+            { type: 'image', src: 'accets/19.png' }, 
             { type: 'image', src: 'accets/20.png' },
-            { type: 'image', src: 'accets/21.jpg' },
-            { type: 'image', src: 'accets/22.jpg' },
+            { type: 'image', src: 'accets/21.png' },
+            { type: 'image', src: 'accets/22.png' },
             { type: 'image', src: 'accets/23.jpg' }, 
-            { type: 'image', src: 'accets/24.png' },
-            { type: 'image', src: 'accets/25.jpg' },
-            { type: 'image', src: 'accets/26.jpg' }, 
-            { type: 'image', src: 'accets/27.png' },
-            { type: 'image', src: 'accets/28.jpg' },
-            // Placeholders to fill rows (replace these with your actual files)
+            // Videos
             { type: 'video', src: 'accets/V1.mp4' },
             { type: 'video', src: 'accets/V2.mp4' },
             { type: 'video', src: 'accets/V3.mp4' },
@@ -410,45 +396,52 @@
         // --- GALLERY LOGIC ---
         function generateHTML(item) {
             if(item.type === 'image') {
-                // Added generic onerror to handle both png/jpg errors
-                return `<div class="gallery-item"><img src="${item.src}" alt="Gallery Item" onerror="this.src='https://via.placeholder.com/300/333/fff?text=No+Img'"></div>`;
+                return `<div class="gallery-item"><img src="${item.src}" alt="Gallery Item"></div>`;
             } else {
-                // Videos muted and loop for smooth scrolling ambiance
-                return `<div class="gallery-item"><video src="${item.src}" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()" onerror="this.parentElement.style.display='none'"></video></div>`;
+                return `<div class="gallery-item"><video src="${item.src}" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()"></video></div>`;
             }
         }
 
         window.updateGallery = (filter, btn) => {
-            // Update Buttons
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            // Filter items
             let items = allItems;
             if (filter !== 'all') {
                 items = allItems.filter(i => i.type === filter);
             }
 
-            // Need enough items to scroll smoothly.
-            // Ensure at least 6 items before doubling for the loop
-            let contentForLoop = [...items];
-            while(contentForLoop.length < 6) {
-                 contentForLoop = [...contentForLoop, ...items];
-            }
-            
-            // Double the content for seamless infinite scroll loop
-            const finalContent = [...contentForLoop, ...contentForLoop]; 
-            
-            const htmlString = finalContent.map(item => generateHTML(item)).join('');
-            
-            // Populate the 3 rows
-            ['row1', 'row2', 'row3'].forEach(id => {
-                const track = document.getElementById(id);
-                track.innerHTML = htmlString;
-                // Optional: Offset animations slightly for more natural look
-                if(id === 'row2') track.style.animationDelay = '-10s';
-                if(id === 'row3') track.style.animationDelay = '-20s';
+            // Distribute items into 3 rows
+            const row1Items = [];
+            const row2Items = [];
+            const row3Items = [];
+
+            items.forEach((item, index) => {
+                const remainder = index % 3;
+                if (remainder === 0) row1Items.push(item);
+                else if (remainder === 1) row2Items.push(item);
+                else row3Items.push(item);
             });
+
+            // Helper to fill track
+            const fillTrack = (trackId, itemList) => {
+                const track = document.getElementById(trackId);
+                
+                // Ensure loop has enough content
+                let contentForLoop = [...itemList];
+                if(contentForLoop.length === 0) { track.innerHTML = ''; return; }
+                
+                while(contentForLoop.length < 4) {
+                     contentForLoop = [...contentForLoop, ...itemList];
+                }
+
+                const finalContent = [...contentForLoop, ...contentForLoop]; 
+                track.innerHTML = finalContent.map(item => generateHTML(item)).join('');
+            };
+
+            fillTrack('row1', row1Items);
+            fillTrack('row2', row2Items);
+            fillTrack('row3', row3Items);
         };
 
         // --- MODALS ---
@@ -469,9 +462,8 @@
             }, { threshold: 0.1 });
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
             
-            // Start videos playing so they appear correctly in auto-scroll
             document.querySelectorAll('video').forEach(vid => {
-                 vid.play().catch(e => console.log("Autoplay prevented depending on browser settings"));
+                 vid.play().catch(e => console.log("Autoplay prevented"));
             });
         });
     </script>
