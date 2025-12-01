@@ -49,10 +49,11 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- AUTO SCROLL ANIMATIONS (MARQUEE) --- */
+        /* --- AUTO SCROLL ANIMATIONS --- */
+        /* Speeds adjusted for smoother look with varied sizes */
         @keyframes scrollLeft {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* Moves half way because content is doubled */
+            100% { transform: translateX(-50%); }
         }
         @keyframes scrollRight {
             0% { transform: translateX(-50%); }
@@ -94,7 +95,7 @@
             background: var(--gradient-main); color: #000; border: none; font-family: 'Outfit'; transition: 0.3s; cursor: pointer;
         }
 
-        /* --- INFINITE SCROLL GALLERY (NEW STYLE) --- */
+        /* --- NEW GALLERY STYLES (VARIABLE SIZES & FRAMES) --- */
         .section-title { text-align: center; font-family: 'Outfit'; font-size: 2.5rem; margin-bottom: 40px; color: white; }
         .section-title span { color: var(--secondary); }
 
@@ -110,48 +111,75 @@
         }
         .tab-btn.active { background: var(--gradient-main); color: #000; }
 
-        /* Wrapper for the 3 rows */
         .gallery-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 20px; /* Space between rows */
+            gap: 25px; /* Spacing between rows */
             margin-bottom: 100px;
-            overflow: hidden; /* Hide horizontal overflow */
+            overflow: hidden;
         }
 
         .scroll-row {
             position: relative;
             width: 100%;
+            height: 240px; /* Fixed height for the rows. Items adapt to this height. */
             display: flex;
             overflow: hidden;
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); /* Fades edges */
+            /* Fades edges slightly for smoother look */
+            mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
         }
 
         .scroll-track {
             display: flex;
-            gap: 20px; /* Space between images */
+            gap: 20px; /* Spacing between items in a row */
+            height: 100%;
             width: max-content;
-            /* Animation applied via JS or inline classes */
         }
         
-        .track-left { animation: scrollLeft 40s linear infinite; }
-        .track-right { animation: scrollRight 40s linear infinite; }
+        /* Slower animation speed to appreciate different sizes */
+        .track-left { animation: scrollLeft 60s linear infinite; }
+        .track-right { animation: scrollRight 60s linear infinite; }
+        .scroll-row:hover .scroll-track { animation-play-state: paused; } /* Pause on hover */
 
-        /* Item Styling */
+        /* ITEM STYLING FOR VARIABLE SIZES & FRAMING */
         .gallery-item {
-            width: 300px; /* Fixed width */
-            height: 180px; /* Fixed height for rows */
+            /* Removed fixed width so it adapts to content aspect ratio */
+            height: 100%; /* Fill the row height */
+            width: auto;  /* Let width define itself */
+            
+            /* Frame Styling */
             border-radius: 12px;
-            background: #000;
-            border: 1px solid rgba(255,255,255,0.05);
-            flex-shrink: 0; /* Prevent shrinking */
+            background: #0a0a0a; /* Slightly lighter black for frame bg */
+            border: 1px solid rgba(255,255,255,0.15); /* More visible border frame */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Depth shadow */
+            
+            flex-shrink: 0;
             overflow: hidden;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            
+            /* Centering content */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .gallery-item:hover { border-color: var(--secondary); transform: scale(1.02); }
+        
+        .gallery-item:hover { 
+            border-color: var(--secondary); 
+            transform: scale(1.02); 
+            box-shadow: 0 8px 25px rgba(96, 239, 255, 0.2);
+        }
+
+        /* Ensure images/videos fit without cropping */
         .gallery-item img, .gallery-item video {
-            width: 100%; height: 100%;
-            object-fit: contain; /* NO CROP */
+            height: 100%; /* Force height to match container */
+            width: auto;  /* Maintain aspect ratio */
+            object-fit: contain; /* CRITICAL: Prevents cropping */
+            display: block;
+        }
+        
+        /* Optional: Specific styling for videos to ensure controls are usable if needed */
+        .gallery-item video {
+            background: #000;
         }
 
         /* --- REVIEWS --- */
@@ -192,7 +220,7 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; }
             .pricing-card.popular { transform: scale(1); }
-            .gallery-item { width: 220px; height: 140px; } /* Smaller items on mobile */
+            .scroll-row { height: 180px; } /* Smaller row height on mobile */
         }
 
         /* --- MODALS --- */
@@ -323,27 +351,29 @@
     </div>
 
     <script>
-        // --- DATA ---
-        // I added more items so the scroll looks full
+        // --- DATA UPDATED WITH MIXED EXTENSIONS ---
         const allItems = [
-            { type: 'image', src: 'accets/1.jpg' },
-            { type: 'video', src: 'accets/V1.mp4' },
-            { type: 'image', src: 'accets/2.jpg' },
-            { type: 'video', src: 'accets/V2.mp4' },
+            // මෙතනට ඔයාගේ PNG සහ JPG ෆයිල් වල නම් දෙන්න.
+            { type: 'image', src: 'accets/1.jpg' }, 
+            { type: 'image', src: 'accets/2.png' },
             { type: 'image', src: 'accets/3.jpg' },
-            { type: 'image', src: 'https://via.placeholder.com/300/0061ff/ffffff?text=Work+1' },
-            { type: 'image', src: 'https://via.placeholder.com/300/0061ff/ffffff?text=Work+2' },
-            { type: 'image', src: 'https://via.placeholder.com/300/0061ff/ffffff?text=Work+3' },
-            { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-            { type: 'image', src: 'https://via.placeholder.com/300/0061ff/ffffff?text=Work+4' }
+            // Placeholders to fill rows (replace these with your actual files)
+            { type: 'video', src: 'accets/V1.mp4' },
+            { type: 'image', src: 'https://via.placeholder.com/300x400/0061ff/ffffff?text=Portrait' },
+            { type: 'image', src: 'https://via.placeholder.com/500x300/60efff/000000?text=Landscape' },
+            { type: 'video', src: 'accets/V2.mp4' },
+            { type: 'image', src: 'https://via.placeholder.com/400x400/0061ff/ffffff?text=Square' },
+            { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4' }
         ];
 
         // --- GALLERY LOGIC ---
         function generateHTML(item) {
             if(item.type === 'image') {
-                return `<div class="gallery-item"><img src="${item.src}" onerror="this.src='https://via.placeholder.com/300/333/fff?text=No+Img'"></div>`;
+                // Added generic onerror to handle both png/jpg errors
+                return `<div class="gallery-item"><img src="${item.src}" alt="Gallery Item" onerror="this.src='https://via.placeholder.com/300/333/fff?text=No+Img'"></div>`;
             } else {
-                return `<div class="gallery-item"><video src="${item.src}" muted loop onmouseover="this.play()" onmouseout="this.pause()" onerror="this.parentElement.style.background='#222'"></video></div>`;
+                // Videos muted and loop for smooth scrolling ambiance
+                return `<div class="gallery-item"><video src="${item.src}" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()" onerror="this.parentElement.style.display='none'"></video></div>`;
             }
         }
 
@@ -358,26 +388,25 @@
                 items = allItems.filter(i => i.type === filter);
             }
 
-            // Shuffle slightly for variety (optional, but looks good in 3 rows)
-            const shuffled = [...items].sort(() => 0.5 - Math.random());
+            // Need enough items to scroll smoothly.
+            // Ensure at least 6 items before doubling for the loop
+            let contentForLoop = [...items];
+            while(contentForLoop.length < 6) {
+                 contentForLoop = [...contentForLoop, ...items];
+            }
             
-            // To make infinite scroll work, we need enough items to fill screen width
-            // So we duplicate the array a few times
-            const content = [...shuffled, ...shuffled, ...shuffled]; 
+            // Double the content for seamless infinite scroll loop
+            const finalContent = [...contentForLoop, ...contentForLoop]; 
             
-            // Fill Rows
-            // We duplicate the content *again* inside the track to create seamless loop
-            // Track structure: [Items] + [Items Duplicate]
+            const htmlString = finalContent.map(item => generateHTML(item)).join('');
             
-            const htmlString = content.map(item => generateHTML(item)).join('');
-            
-            // Populate the 3 rows with slightly different content or order if desired
-            // Here we just use the same filtered list but standard marquee technique requires double content
-            
+            // Populate the 3 rows
             ['row1', 'row2', 'row3'].forEach(id => {
                 const track = document.getElementById(id);
-                // Double the content for smooth infinite loop
-                track.innerHTML = htmlString + htmlString; 
+                track.innerHTML = htmlString;
+                // Optional: Offset animations slightly for more natural look
+                if(id === 'row2') track.style.animationDelay = '-10s';
+                if(id === 'row3') track.style.animationDelay = '-20s';
             });
         };
 
@@ -398,6 +427,11 @@
                 });
             }, { threshold: 0.1 });
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            
+            // Start videos playing so they appear correctly in auto-scroll
+            document.querySelectorAll('video').forEach(vid => {
+                 vid.play().catch(e => console.log("Autoplay prevented depending on browser settings"));
+            });
         });
     </script>
 </body>
