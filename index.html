@@ -419,6 +419,7 @@
 
     <script>
         // --- DATA ---
+        // වීඩියෝ වල නම් අගට .webm දමා ඇත
         const allItems = [
             { type: 'image', src: 'accets/1.jpg' }, 
             { type: 'image', src: 'accets/2.jpg' },
@@ -443,18 +444,18 @@
             { type: 'image', src: 'accets/21.png' },
             { type: 'image', src: 'accets/22.png' },
             { type: 'image', src: 'accets/23.jpg' }, 
-            // Videos
-            { type: 'video', src: 'accets/V1.mp4' },
-            { type: 'video', src: 'accets/V2.mp4' },
-            { type: 'video', src: 'accets/V3.mp4' },
-            { type: 'video', src: 'accets/V4.mp4' },
-            { type: 'video', src: 'accets/V5.mp4' },
-            { type: 'video', src: 'accets/V6.mp4' },
-            { type: 'video', src: 'accets/V7.mp4' },
-            { type: 'video', src: 'accets/V8.mp4' },
-            { type: 'video', src: 'accets/V9.mp4' },
-            { type: 'video', src: 'accets/V10.mp4' },
-            { type: 'video', src: 'accets/V11.mp4' },
+            // Videos (Changed to .webm)
+            { type: 'video', src: 'accets/V1.webm' },
+            { type: 'video', src: 'accets/V2.webm' },
+            { type: 'video', src: 'accets/V3.webm' },
+            { type: 'video', src: 'accets/V4.webm' },
+            { type: 'video', src: 'accets/V5.webm' },
+            { type: 'video', src: 'accets/V6.webm' },
+            { type: 'video', src: 'accets/V7.webm' },
+            { type: 'video', src: 'accets/V8.webm' },
+            { type: 'video', src: 'accets/V9.webm' },
+            { type: 'video', src: 'accets/V10.webm' },
+            { type: 'video', src: 'accets/V11.webm' },
         ];
 
         // --- GALLERY ---
@@ -462,7 +463,8 @@
             if(item.type === 'image') {
                 return `<div class="gallery-item"><img src="${item.src}" alt="Gallery Item"></div>`;
             } else {
-                return `<div class="gallery-item"><video src="${item.src}" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()"></video></div>`;
+                // මෙතන autoplay දාලා mouse events අයින් කරා
+                return `<div class="gallery-item"><video src="${item.src}" autoplay muted loop playsinline></video></div>`;
             }
         }
 
@@ -557,17 +559,12 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if(entry.isIntersecting) {
-                        // Element එක පේනකොට Active කරන්න
                         entry.target.classList.add('active');
-                        // Stats section එක නම් Numbers count කරන්න පටන් ගන්න
                         if(entry.target.querySelector('.stat-num')) {
                             animateNumbers(entry.target);
                         }
                     } else {
-                        // Element එක නොපෙනී ගියාම Active අයින් කරන්න (Re-animate වෙන්න)
                         entry.target.classList.remove('active');
-                        
-                        // Stats section එකෙන් එළියට ගියාම අංක ආයේ 0 කරන්න
                         if(entry.target.querySelector('.stat-num')) {
                              const numbers = entry.target.querySelectorAll('.stat-num');
                              numbers.forEach(num => {
@@ -580,14 +577,11 @@
             }, { threshold: 0.15 });
 
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-            
-            document.querySelectorAll('video').forEach(vid => {
-                 vid.play().catch(e => console.log("Autoplay prevented"));
-            });
         });
     </script>
 </body>
 </html>
+
 
 
 
