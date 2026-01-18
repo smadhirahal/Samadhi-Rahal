@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Samadhi Rahal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+
+        /* --- Global Reset (මේකෙන් තමයි ප්‍රශ්නේ විසඳෙන්නේ) --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* Padding එක Box එක ඇතුලට දානවා */
+        }
+
+        :root { --bg-dark: #020617; --primary: #0061ff; --secondary: #60efff; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: radial-gradient(circle at center, rgba(0, 97, 255, 0.15), transparent 50%);
+            color: white;
+            padding: 20px; /* Mobile වල වටේට ඉඩ තියන්න */
+        }
+
+        .auth-container {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 40px 30px; /* දෙපැත්තේ padding අඩු කළා */
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(20px);
+            text-align: center;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .home-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            transition: 0.3s;
+            text-decoration: none;
+            width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .home-btn:hover { color: white; background: rgba(255,255,255,0.1); border-radius: 50%; }
+
+        h2 { font-family: 'Outfit'; margin-bottom: 10px; font-size: 2rem; }
+        
+        /* --- INPUT GROUP FIX --- */
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+            width: 100%; /* Group එක 100% ගන්නවා */
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary);
+            font-size: 1rem;
+            pointer-events: none;
+            z-index: 2; /* Icon එක උඩින් තියන්න */
+        }
+        
+        .input-field {
+            width: 100%; /* හරියටම Container එකේ සයිස් එකට */
+            padding: 14px 14px 14px 45px; /* වමේ ඉඩ icon එකට */
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+            font-size: 0.95rem;
+            /* box-sizing: border-box; (උඩ Global එකේ දාලා තියෙන නිසා මෙතන අනිවාර්ය නෑ, ඒත් ෂුවර් එකට) */
+        }
+        
+        .input-field:focus {
+            border-color: var(--secondary);
+            background: rgba(255,255,255,0.1);
+            box-shadow: 0 0 15px rgba(96, 239, 255, 0.15);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0061ff, #60efff);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            color: #000;
+            margin-top: 10px;
+            transition: 0.3s;
+            font-family: 'Outfit';
+            font-size: 1rem;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(96, 239, 255, 0.3);
+        }
+
+        .switch-text { margin-top: 25px; font-size: 0.9rem; color: #94a3b8; }
+        .switch-text span { color: var(--secondary); cursor: pointer; font-weight: 600; text-decoration: underline; }
+
+        .form-box { transition: opacity 0.4s ease, transform 0.4s ease; }
+        .hidden { display: none; }
+        .fade-in { animation: fadeIn 0.5s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <a href="index.html" class="home-btn"><i class="fas fa-times"></i></a>
+        
+        <div id="loginForm" class="form-box fade-in">
+            <h2>Welcome Back</h2>
+            <p style="color:#94a3b8; margin-bottom:30px;">Login to access your downloads</p>
+            
+            <form onsubmit="event.preventDefault(); window.location.href='dashboard.html'">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email Address" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" class="input-field" required>
+                </div>
+                <button class="btn-submit">Login Now</button>
+            </form>
+            
+            <p class="switch-text">New Creator? <span onclick="switchForm('register')">Create Account</span></p>
+        </div>
+
+        <div id="registerForm" class="form-box hidden">
+            <h2>Join the Hub</h2>
+            <p style="color:#94a3b8; margin-bottom:30px;">Get access to premium assets</p>
+            
+            <form onsubmit="event.preventDefault(); alert('Account design ready! Hosting needed for real registration.')">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Full Name" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email Address" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Create Password" class="input-field" required>
+                </div>
+                <button class="btn-submit">Sign Up Free</button>
+            </form>
+            
+            <p class="switch-text">Already have an account? <span onclick="switchForm('login')">Login</span></p>
+        </div>
+    </div>
+
+    <script>
+        function switchForm(type) {
+            const login = document.getElementById('loginForm');
+            const register = document.getElementById('registerForm');
+
+            if (type === 'register') {
+                login.classList.add('hidden');
+                register.classList.remove('hidden');
+                register.classList.add('fade-in');
+            } else {
+                register.classList.add('hidden');
+                login.classList.remove('hidden');
+                login.classList.add('fade-in');
+            }
+        }
+    </script>
+</body>
+</html>

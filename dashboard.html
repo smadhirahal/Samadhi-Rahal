@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard | Samadhi Rahal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Main Styles (Same as Index) */
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+        :root { --bg-dark: #020617; --card-bg: rgba(15, 23, 42, 0.6); --primary: #0061ff; --secondary: #60efff; --text-white: #ffffff; --text-gray: #94a3b8; }
+        
+        body {
+            font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-white); margin: 0;
+            background-image: radial-gradient(circle at 90% 10%, rgba(0, 97, 255, 0.1), transparent 20%);
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        /* Navbar */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 40px; }
+        .logo { font-family: 'Outfit'; font-weight: 700; font-size: 1.4rem; color: white; text-decoration: none; }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--secondary); display: flex; justify-content: center; align-items: center; color: black; font-weight: bold; }
+        .logout { color: #ff4d4d; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+
+        /* Dashboard Content */
+        h1 { font-family: 'Outfit'; font-size: 2rem; margin-bottom: 30px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        
+        .card {
+            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 25px; transition: 0.3s;
+        }
+        .card:hover { border-color: var(--secondary); transform: translateY(-5px); }
+        
+        .card-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .status { padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid #00ff88; }
+        
+        .prod-name { font-family: 'Outfit'; font-size: 1.2rem; margin-bottom: 5px; }
+        .date { font-size: 0.85rem; color: var(--text-gray); }
+        
+        .btn-download {
+            display: block; width: 100%; text-align: center; margin-top: 20px;
+            padding: 10px; background: rgba(255,255,255,0.1); color: white; text-decoration: none;
+            border-radius: 8px; font-weight: 600; transition: 0.3s;
+        }
+        .btn-download:hover { background: var(--secondary); color: black; }
+
+        .empty-state { text-align: center; grid-column: 1/-1; padding: 50px; color: var(--text-gray); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav>
+            <a href="index.html" class="logo">Samadhi Rahal</a>
+            <div class="user-info">
+                <span>Welcome, <strong>User</strong></span>
+                <div class="avatar">U</div>
+                <a href="index.html" class="logout" onclick="alert('Logged out!')">Logout</a>
+            </div>
+        </nav>
+
+        <h1>My <span>Purchases</span></h1>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <span class="status">Purchased</span>
+                    <i class="fas fa-file-code" style="color:var(--secondary)"></i>
+                </div>
+                <h3 class="prod-name">AI Color Palette Script</h3>
+                <p class="date">Purchased on: 2026-01-18</p>
+                <a href="#" class="btn-download" onclick="alert('Download link will work after hosting!')"><i class="fas fa-download"></i> Download</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="status">Purchased</span>
+                    <i class="fas fa-video" style="color:var(--secondary)"></i>
+                </div>
+                <h3 class="prod-name">Cinematic LUTS Vol.1</h3>
+                <p class="date">Purchased on: 2026-01-15</p>
+                <a href="#" class="btn-download" onclick="alert('Download link will work after hosting!')"><i class="fas fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

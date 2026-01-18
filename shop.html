@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | Samadhi Rahal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- COPYING MAIN STYLES FOR CONSISTENCY --- */
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+        :root {
+            --bg-dark: #020617;        
+            --card-bg: rgba(15, 23, 42, 0.6); 
+            --primary: #0061ff;        
+            --secondary: #60efff;    
+            --gradient-main: linear-gradient(135deg, #0061ff 0%, #60efff 100%);
+            --gradient-text: linear-gradient(to right, #60efff, #0061ff);
+            --text-white: #ffffff;
+            --text-gray: #94a3b8;
+            --radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            overflow-x: hidden;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 97, 255, 0.1), transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(96, 239, 255, 0.05), transparent 20%);
+        }
+
+        /* --- HEADER (Simplified) --- */
+        header { padding: 15px 0; position: sticky; top: 0; z-index: 1000; background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Outfit'; font-weight: 800; font-size: 1.6rem; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+        .back-link { color: var(--text-gray); text-decoration: none; font-weight: 500; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .back-link:hover { color: var(--secondary); }
+
+        /* --- SHOP HERO --- */
+        .shop-hero { text-align: center; padding: 80px 0 40px; }
+        .shop-hero h1 { font-family: 'Outfit'; font-size: 3.5rem; margin-bottom: 15px; }
+        .shop-hero h1 span { color: var(--secondary); }
+        .shop-hero p { color: var(--text-gray); max-width: 600px; margin: 0 auto; }
+
+        /* --- FILTERS --- */
+        .filter-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap; }
+        .filter-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-gray);
+            padding: 10px 25px; border-radius: 50px; cursor: pointer; transition: 0.3s; font-family: 'Outfit'; font-weight: 600;
+        }
+        .filter-btn:hover, .filter-btn.active { background: var(--gradient-main); color: #000; border-color: transparent; box-shadow: 0 0 15px rgba(0, 97, 255, 0.4); }
+
+        /* --- PRODUCT GRID --- */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; margin-bottom: 100px; }
+        
+        .product-card {
+            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden;
+            transition: 0.4s ease; position: relative; display: flex; flex-direction: column;
+        }
+        .product-card:hover { transform: translateY(-10px); border-color: var(--secondary); box-shadow: 0 10px 30px rgba(96, 239, 255, 0.15); }
+
+        .prod-img-box { width: 100%; height: 200px; background: #000; overflow: hidden; position: relative; }
+        .prod-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .product-card:hover .prod-img-box img { transform: scale(1.1); }
+        
+        .badge { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.7); color: var(--secondary); padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; border: 1px solid var(--secondary); backdrop-filter: blur(4px); }
+
+        .prod-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .prod-title { font-family: 'Outfit'; font-size: 1.4rem; margin-bottom: 10px; color: white; }
+        .prod-desc { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; }
+        
+        .prod-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .price { font-family: 'Outfit'; font-size: 1.5rem; font-weight: 700; color: var(--text-white); }
+        .price span { font-size: 0.9rem; color: var(--text-gray); font-weight: 400; }
+        
+        .btn-buy {
+            padding: 10px 20px; background: var(--gradient-main); color: #000; border: none; border-radius: 50px;
+            font-weight: 700; cursor: pointer; text-decoration: none; font-size: 0.9rem; transition: 0.3s;
+        }
+        .btn-buy:hover { box-shadow: 0 0 15px rgba(96, 239, 255, 0.5); }
+
+        /* Footer */
+        footer { background: #010409; padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: var(--text-gray); font-size: 0.9rem; }
+
+        @media (max-width: 768px) {
+            .shop-hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-content">
+            <a href="index.html" class="logo">Samadhi Rahal</a>
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="shop-hero">
+            <h1>Digital <span>Store</span></h1>
+            <p>High-quality assets to level up your editing game. Scripts, Presets, and Project Files.</p>
+        </section>
+
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterItems('all', this)">All Products</button>
+            <button class="filter-btn" onclick="filterItems('script', this)">Scripts</button>
+            <button class="filter-btn" onclick="filterItems('preset', this)">Presets</button>
+            <button class="filter-btn" onclick="filterItems('plugin', this)">Plugins</button>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+            </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Samadhi Rahal. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // --- PRODUCT DATA (මෙතනින් තමයි ඔයාගේ බඩු ටික add කරන්නේ) ---
+        const products = [
+            {
+                id: 1,
+                name: "AI Color Palette Generator",
+                category: "script",
+                price: "$15.00",
+                image: "accets/script1.jpg", // ඔයාගේ image එකේ නම දාන්න
+                desc: "Automatically detect colors from any artwork in Illustrator and generate a palette with HEX/RGB codes."
+            },
+            {
+                id: 2,
+                name: "Cinematic LUTS Pack Vol.1",
+                category: "preset",
+                price: "$10.00",
+                image: "accets/lut1.jpg", 
+                desc: "10 High-quality .cube files for Premiere Pro & DaVinci Resolve. Get the movie look instantly."
+            },
+            {
+                id: 3,
+                name: "Glitch Transitions Pack",
+                category: "preset",
+                price: "$8.00",
+                image: "accets/glitch.jpg",
+                desc: "Smooth and aggressive glitch transitions for dynamic edits. Drag and drop functionality."
+            },
+            {
+                id: 4,
+                name: "Premiere Auto-Cut Tool",
+                category: "plugin",
+                price: "$25.00",
+                image: "accets/plugin1.jpg",
+                desc: "Remove silence from your footage automatically. Save hours of editing time."
+            }
+            // තව product එකක් ඕන නම් මෙතනට copy paste කරන්න
+        ];
+
+        const productGrid = document.getElementById('productGrid');
+        const YOUR_PHONE = "94702241785"; // ඔයාගේ නම්බර් එක
+
+        // Function to render products
+        function renderProducts(filter) {
+            productGrid.innerHTML = '';
+            
+            const filtered = filter === 'all' 
+                ? products 
+                : products.filter(p => p.category === filter);
+
+            if(filtered.length === 0) {
+                productGrid.innerHTML = '<p style="color:gray; grid-column:1/-1; text-align:center;">No products found in this category yet.</p>';
+                return;
+            }
+
+            filtered.forEach(product => {
+                // WhatsApp Message Generator
+                const msg = `Hi Samadhi! I want to buy *${product.name}* (${product.price}). How can I pay?`;
+                const waLink = `https://wa.me/${YOUR_PHONE}?text=${encodeURIComponent(msg)}`;
+
+                const html = `
+                    <div class="product-card">
+                        <div class="prod-img-box">
+                            <span class="badge">${product.category}</span>
+                            <img src="${product.image}" onerror="this.src='https://via.placeholder.com/400x300/0f172a/60efff?text=Product'" alt="${product.name}">
+                        </div>
+                        <div class="prod-info">
+                            <h3 class="prod-title">${product.name}</h3>
+                            <p class="prod-desc">${product.desc}</p>
+                            <div class="prod-footer">
+                                <div class="price">${product.price}</div>
+                                <a href="${waLink}" target="_blank" class="btn-buy">Buy Now <i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productGrid.innerHTML += html;
+            });
+        }
+
+        // Filter Logic
+        window.filterItems = (cat, btn) => {
+            // Button styles
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Render items
+            renderProducts(cat);
+        };
+
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts('all');
+        });
+    </script>
+</body>
+</html>

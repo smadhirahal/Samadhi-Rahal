@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal & Policies | Samadhi Rahal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap');
+
+        :root {
+            --bg-dark: #020617;        
+            --card-bg: rgba(15, 23, 42, 0.8); 
+            --primary: #0061ff;        
+            --secondary: #60efff;    
+            --text-white: #ffffff;
+            --text-gray: #94a3b8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            margin: 0; padding: 0;
+            
+            /* --- BACKGROUND FIX --- */
+            /* හරියටම උඩ කෙලවරට (top center) සෙට් වෙන විදියට හැදුවා */
+            background-image: radial-gradient(circle at center top, rgba(0, 97, 255, 0.2), transparent 50%);
+            background-attachment: fixed; /* Scroll කරද්දි light එක හෙලවෙන්නේ නෑ */
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        
+        /* Header */
+        header { text-align: center; margin-bottom: 50px; position: relative; z-index: 10; }
+        .back-home { color: var(--secondary); text-decoration: none; font-size: 0.9rem; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .back-home:hover { transform: translateX(-5px); }
+        
+        h1 { font-family: 'Outfit'; font-size: 2.5rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        h1 span { color: var(--secondary); text-shadow: 0 0 20px rgba(96, 239, 255, 0.3); }
+
+        /* Tabs */
+        .tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
+        .tab-btn {
+            background: rgba(255,255,255,0.05); color: var(--text-gray); border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 28px; border-radius: 30px; cursor: pointer; font-family: 'Outfit'; font-weight: 600; transition: 0.3s;
+        }
+        .tab-btn:hover { background: rgba(255,255,255,0.1); border-color: white; color: white; }
+        .tab-btn.active { background: var(--secondary); color: #000; border-color: var(--secondary); box-shadow: 0 0 15px rgba(96, 239, 255, 0.4); }
+
+        /* Content */
+        .policy-content {
+            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
+            padding: 40px; border-radius: 20px; display: none; backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .policy-content.active { display: block; }
+        
+        h2 { font-family: 'Outfit'; color: var(--secondary); margin-bottom: 20px; font-size: 1.8rem; }
+        p { color: var(--text-gray); margin-bottom: 15px; line-height: 1.7; font-size: 0.95rem; }
+        
+        ul { margin-bottom: 20px; padding-left: 20px; color: var(--text-gray); }
+        li { margin-bottom: 10px; }
+        
+        h3 { color: white; margin: 25px 0 10px; font-family: 'Outfit'; font-size: 1.2rem; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .policy-content { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            <h1>Legal & <span>Policies</span></h1>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab('refund', this)">Refund Policy</button>
+            <button class="tab-btn" onclick="openTab('privacy', this)">Privacy Policy</button>
+            <button class="tab-btn" onclick="openTab('terms', this)">Terms & Conditions</button>
+        </div>
+
+        <div id="refund" class="policy-content active">
+            <h2>Refund Policy</h2>
+            <p>Thank you for shopping at Samadhi Rahal Store.</p>
+            <p>Since we sell <strong>Digital Products</strong> (Scripts, Presets, Plugins), we generally <strong>do not offer refunds</strong> once the files have been downloaded or sent to you. This is due to the nature of digital goods which cannot be "returned".</p>
+            <h3>Exceptions:</h3>
+            <ul>
+                <li>If the file is corrupt or technically defective.</li>
+                <li>If the product description was completely misleading.</li>
+                <li>If you purchased the same product twice by accident.</li>
+            </ul>
+            <p>In such cases, please contact us via WhatsApp or Email within 7 days of purchase. We will verify the issue and process a refund if applicable.</p>
+        </div>
+
+        <div id="privacy" class="policy-content">
+            <h2>Privacy Policy</h2>
+            <p>Your privacy is important to us. This policy explains how we handle your information.</p>
+            <h3>Information We Collect:</h3>
+            <p>We only collect basic information needed to process your order, such as your Name, Email, and WhatsApp number when you contact us for a purchase.</p>
+            <h3>How We Use Your Data:</h3>
+            <ul>
+                <li>To deliver the digital files you purchased.</li>
+                <li>To provide customer support.</li>
+                <li>We <strong>never</strong> sell or share your data with third parties.</li>
+            </ul>
+        </div>
+
+        <div id="terms" class="policy-content">
+            <h2>Terms & Conditions</h2>
+            <p>By purchasing from this site, you agree to the following terms:</p>
+            <h3>License & Usage:</h3>
+            <ul>
+                <li>All products are for <strong>personal use only</strong> (unless a commercial license is purchased).</li>
+                <li>You may <strong>not</strong> resell, redistribute, or share the files with others.</li>
+                <li>You may <strong>not</strong> upload our scripts/presets to other websites or file-sharing platforms.</li>
+            </ul>
+            <h3>Copyright:</h3>
+            <p>All content, including the scripts and presets, remains the intellectual property of Samadhi Rahal.</p>
+        </div>
+
+    </div>
+
+    <script>
+        function openTab(tabName, btn) {
+            // Hide all content
+            document.querySelectorAll('.policy-content').forEach(c => c.classList.remove('active'));
+            // Remove active class from buttons
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            // Show selected content and activate button
+            document.getElementById(tabName).classList.add('active');
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+</html>
